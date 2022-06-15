@@ -1,3 +1,5 @@
+#AS of 6/15/2022 This is only useful for games auctions as the owners of the website do not give enough detail on items that are not games
+
 import json
 import requests
 import datetime
@@ -85,37 +87,70 @@ print ("The first item in the Natomas gallery is " + NItem1)
 print ("The first item in the Galt gallery is " + GItem1)
 
 
+def Itemcheck(location,number):
+    match location:
+        case 'S':
+            print ("Item number " + number + " is titled " + SPost['items'][int(number)-1]['title'])
+            print ("The current price of item number " + number + " is " + SPost['items'][int(number)-1]['current_bid'])
+        case 'E':
+            print ("Item number " + number + " is titled " + EPost['items'][int(number)-1]['title'])
+            print ("The current price of item number " + number + " is " + EPost['items'][int(number)-1]['current_bid'])
+        case 'R':
+            print ("Item number " + number + " is titled " + RPost['items'][int(number)-1]['title'])
+            print ("The current price of item number " + number + " is " + RPost['items'][int(number)-1]['current_bid'])
+        case 'C':
+            print ("Item number " + number + " is titled " + CPost['items'][int(number)-1]['title'])
+            print ("The current price of item number " + number + " is " + CPost['items'][int(number)-1]['current_bid'])
+        case 'N':
+            print ("Item number " + number + " is titled " + NPost['items'][int(number)-1]['title'])
+            print ("The current price of item number " + number + " is " + NPost['items'][int(number)-1]['current_bid'])
+        case 'G':
+            print ("Item number " + number + " is titled " + GPost['items'][int(number)-1]['title'])
+            print ("The current price of item number " + number + " is " + GPost['items'][int(number)-1]['current_bid'])
+    
+def Numfind():
+    Itemnumber = input("Which item would you like to view? ")
+    return str(Itemnumber)
 Redirectto = input("\nPlease type a location to go to or type in 'Exit' to exit: ")
 while Redirectto != "No":
     if (Redirectto == "Sacramento" or Redirectto == "sacramento" or Redirectto == 's' or Redirectto == 'S'):
         print ("The first auction gallery in Sacramento is a " + (Sjson['auctions']['1']['title']))
         print ("There are " + Sjson['auctions']['1']['item_count'] + " items in this gallery")
-        
+        itemnumber = Numfind()
+        Itemcheck("S",itemnumber)
     elif (Redirectto == "Exit" or Redirectto == "exit"):
         print ("Exiting program")
         break
     elif (Redirectto == "Elk Grove" or Redirectto == "elk grove" or Redirectto == "elkgrove" or Redirectto == "Elkgrove" or Redirectto == 'e' or Redirectto == 'E'):
         print ("The first auction gallery in Elk Grove is a " + (Ejson['auctions'][0]['title']))
         print ("There are " + Ejson['auctions']['1']['item_count'] + " items in this gallery")
+        itemnumber = Numfind()
+        Itemcheck("E",itemnumber)
         
     elif (Redirectto == "Rancho Cordova" or Redirectto == "rancho cordova" or Redirectto == "ranchocordova" or Redirectto == "Ranchocordova" or Redirectto == 'r' or Redirectto == 'R'):
         print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
         print ("There are " + Rjson['auctions']['1']['item_count'] + " items in this gallery")
+        itemnumber = Numfind()
+        Itemcheck("R",itemnumber)
         
     elif (Redirectto == "Citrus Heights" or Redirectto == "citrus heights" or Redirectto == "citrusheights" or Redirectto == "Citrusheights" or Redirectto == 'C' or Redirectto == 'c'):
         print ("The first auction gallery in Citrus Heights is a " + (Cjson['auctions']['1']['title']))
+        print ("There are " + Gjson['auctions']['2']['item_count'] + " items in this gallery")
+        itemnumber = Numfind()
+        Itemcheck("C",itemnumber)
         
     elif (Redirectto == "Natomas" or Redirectto == "natomas" or Redirectto == 'n' or Redirectto == 'N'):
         print ("The first auction gallery in Natomas is a " + (Njson['auctions']['1']['title']))
         print ("There are " + Njson['auctions']['1']['item_count'] + " items in this gallery")
+        itemnumber = Numfind()
+        Itemcheck("N",itemnumber)
                
     elif (Redirectto == "Galt" or Redirectto == "galt" or Redirectto == 'g' or Redirectto == 'G'):
         print ("The first auction gallery in Galt is a " + (Gjson['auctions']['2']['title']))
-        print ("There are " + Gjson['auctions']['1']['item_count'] + " items in this gallery")
+        print ("There are " + Gjson['auctions']['2']['item_count'] + " items in this gallery")
+        itemnumber = Numfind()
+        Itemcheck("G",itemnumber)
     else:
         print("Keyword not valid or recognized. Please type again:")
-    Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
+    Redirectto
 
-
-
-#
