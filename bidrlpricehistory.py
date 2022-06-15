@@ -79,38 +79,41 @@ CItem1 = CPost['items'][0]['title']
 NItem1 = NPost['items'][0]['title']
 GItem1 = GPost['items'][0]['title']
 
-print ("The first item in the Sacramento gallery is " + SItem1)
-print ("The first item in the Elk Grove gallery is " + EItem1)
-print ("The first item in the Rancho Cordova gallery is " + RItem1)
-print ("The first item in the Citrus Heights gallery is " + CItem1)
-print ("The first item in the Natomas gallery is " + NItem1)
-print ("The first item in the Galt gallery is " + GItem1)
-
-
 def Itemcheck(location,number):
-    match location:
-        case 'S':
-            print ("Item number " + number + " is titled " + SPost['items'][int(number)-1]['title'])
-            print ("The current price of item number " + number + " is " + SPost['items'][int(number)-1]['current_bid'])
-        case 'E':
-            print ("Item number " + number + " is titled " + EPost['items'][int(number)-1]['title'])
-            print ("The current price of item number " + number + " is " + EPost['items'][int(number)-1]['current_bid'])
-        case 'R':
-            print ("Item number " + number + " is titled " + RPost['items'][int(number)-1]['title'])
-            print ("The current price of item number " + number + " is " + RPost['items'][int(number)-1]['current_bid'])
-        case 'C':
-            print ("Item number " + number + " is titled " + CPost['items'][int(number)-1]['title'])
-            print ("The current price of item number " + number + " is " + CPost['items'][int(number)-1]['current_bid'])
-        case 'N':
-            print ("Item number " + number + " is titled " + NPost['items'][int(number)-1]['title'])
-            print ("The current price of item number " + number + " is " + NPost['items'][int(number)-1]['current_bid'])
-        case 'G':
-            print ("Item number " + number + " is titled " + GPost['items'][int(number)-1]['title'])
-            print ("The current price of item number " + number + " is " + GPost['items'][int(number)-1]['current_bid'])
-    
+    while (True):
+        if number == "exit" or number == "Exit":
+            break
+        else:
+            match location:
+                case 'S':
+                    print ("Item number " + number + " is titled " + SPost['items'][int(number)-1]['title'])
+                    print ("The current price of item number " + number + " is " + SPost['items'][int(number)-1]['current_bid'])
+                case 'E':
+                    print ("Item number " + number + " is titled " + EPost['items'][int(number)-1]['title'])
+                    print ("The current price of item number " + number + " is " + EPost['items'][int(number)-1]['current_bid'])
+                case 'R':
+                    print ("Item number " + number + " is titled " + RPost['items'][int(number)-1]['title'])
+                    print ("The current price of item number " + number + " is " + RPost['items'][int(number)-1]['current_bid'])
+                case 'C':
+                    print ("Item number " + number + " is titled " + CPost['items'][int(number)-1]['title'])
+                    print ("The current price of item number " + number + " is " + CPost['items'][int(number)-1]['current_bid'])
+                case 'N':
+                    print ("Item number " + number + " is titled " + NPost['items'][int(number)-1]['title'])
+                    print ("The current price of item number " + number + " is " + NPost['items'][int(number)-1]['current_bid'])
+                case 'G':
+                    print ("Item number " + number + " is titled " + GPost['items'][int(number)-1]['title'])
+                    print ("The current price of item number " + number + " is " + GPost['items'][int(number)-1]['current_bid'])            
+        try:
+            number = input("Type in another number or type exit to go back to the previous prompt (1-12 only): ")
+            number = int(number)
+        except:
+            print("Please use numeric digits.")
+            
+
 def Numfind():
-    Itemnumber = input("Which item would you like to view? ")
+    Itemnumber = input("Which item would you like to view? (Only 1-12 right now): ")
     return str(Itemnumber)
+
 Redirectto = input("\nPlease type a location to go to or type in 'Exit' to exit: ")
 while Redirectto != "No":
     if (Redirectto == "Sacramento" or Redirectto == "sacramento" or Redirectto == 's' or Redirectto == 'S'):
@@ -152,5 +155,5 @@ while Redirectto != "No":
         Itemcheck("G",itemnumber)
     else:
         print("Keyword not valid or recognized. Please type again:")
-    Redirectto
+    Redirectto = input("\nPlease type a location to go to or type in 'Exit' to exit: ")
 
