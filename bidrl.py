@@ -1,3 +1,5 @@
+#Web scraping the site bidrl 
+
 import json
 import requests
 import datetime
@@ -118,6 +120,8 @@ print ("There are " + str(Gjson['total']) + " auction galleries available at Gal
 if Stimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Sacramento is a " + (Sjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + SItem1 + ".")
+    print ("The first item's current bid is at " + SPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8% tax and 13% buyer's premium is " + str(float(SPost['items'][0]['current_bid']) * .08 + float(SPost['items'][0]['current_bid']) + float(SPost['items'][0]['current_bid']) * .13))
     if (Stimeleft < 0):
         print ("The current gallery is closing items right now.")
     else:
@@ -135,6 +139,8 @@ else:
 if Etimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Elk Grove is a " + (Ejson['auctions'][0]['title']))
     print ("The first item in this gallery is titled " + EItem1 + ".")
+    print ("The first item's current bid is at " + EPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8% tax and 13% buyer's premium is " + str(float(EPost['items'][0]['current_bid']) * .08 + float(EPost['items'][0]['current_bid']) + float(EPost['items'][0]['current_bid']) * .13))
     if (Etimeleft < 0):
         print ("The current gallery is closing items right now.")
     else:
@@ -152,6 +158,8 @@ else:
 if Rtimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + RItem1 + ".")
+    print ("The first item's current bid is at " + RPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8% tax and 13% buyer's premium is " + str(float(RPost['items'][0]['current_bid']) * .08 + float(RPost['items'][0]['current_bid']) + float(RPost['items'][0]['current_bid']) * .13))
     if (Rtimeleft < 0):
         print ("The current gallery is closing items right now.")
     else:
@@ -169,6 +177,8 @@ else:
 if Ctimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Citrus Heights is a " + (Cjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + CItem1 + ".")
+    print ("The first item's current bid is at " + CPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8% tax and 13% buyer's premium is " + str(float(CPost['items'][0]['current_bid']) * .08 + float(CPost['items'][0]['current_bid']) + float(CPost['items'][0]['current_bid']) * .13))
     if (Ctimeleft < 0):
         print ("The current gallery is closing items right now.")
     else:
@@ -186,6 +196,8 @@ else:
 if Ntimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Natomas is a " + (Njson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + NItem1 + ".")
+    print ("The first item's current bid is at " + NPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8% tax and 13% buyer's premium is " + str(float(NPost['items'][0]['current_bid']) * .08 + float(NPost['items'][0]['current_bid']) + float(NPost['items'][0]['current_bid']) * .13)) 
     if (Ntimeleft < 0):
         print ("The current gallery is closing items right now.")
     else :    
@@ -203,6 +215,8 @@ else:
 if Gtimes.find("Closing Time") != -1:
     print ("The first auction gallery in Galt is a " + (Gjson['auctions']['2']['title']))
     print ("The first item in this gallery is titled " + GItem1 + ".")
+    print ("The first item's current bid is at " + GPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8% tax and 13% buyer's premium is " + str(float(GPost['items'][0]['current_bid']) * .08 + float(GPost['items'][0]['current_bid']) + float(GPost['items'][0]['current_bid']) * .13))
     if (Gtimeleft < 0):
         print ("The current gallery is closing items right now.")
     else :    
@@ -261,6 +275,8 @@ while Redirectto != "No":
     else:
         print("Keyword not valid or recognized. Please type again:")
     Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
+
+
 
 #6/8/2022 Added more options to redirect to webpages
 #6/7/2022 Added Galt to locations it finds info on.
