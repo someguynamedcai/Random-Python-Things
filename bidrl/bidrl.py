@@ -256,7 +256,7 @@ while Redirectto != "No":
         print ("Opening up the most recent Elk Grove gallery.\n")
         Fulllink = Startlink + Ejson['auctions'][1]['auction_id_slug']
         webbrowser.get('edge').open(Fulllink)
-    elif (Redirectto == "Rancho Cordova" or Redirectto == "rancho cordova" or Redirectto == "ranchocordova" or Redirectto == "Ranchocordova" or Redirectto == 'r' or Redirectto == 'R'):
+    elif (Redirectto == "Rancho Cordova" or Redirectto == "rancho cordova" or Redirectto == "ranchocordova" or Redirectto == "Ranchocordova" or Redirectto == 'r' or Redirectto == 'R' or Redirectto == "Rancho" or Redirectto == "rancho"):
         print ("Opening up the most recent Rancho Cordova gallery.\n")
         Fulllink = Startlink + Rjson['auctions']['1']['auction_id_slug']
         webbrowser.get('edge').open(Fulllink)
