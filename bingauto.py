@@ -17,10 +17,12 @@ searchwords = ["amazon","2022","2021","google","weather","news","steam","faceboo
                "EU","ethereum","indeed","jobs","duckduckgo","google play","app store","walmart","target","best buy",
                "black friday","christmas","new year","lunar","steam sale","slickdeals","microsoft store","gog","craigslist","cag",
                "psn","xbox","coinbase","salesforce","glassdoor","epic","wikipedia","imdb","amazon prime","hulu",
-               "peacock","disney plus"]
+               "peacock","disney plus","gmail","outlook","teams","protonmail","fidelity","vanguard","netflix","paramount",
+               "vudu","fandango","rotten tomatoes","humble bundle","fanatical","indiegala","gamesplanet","dlgamer","gamersgate","gamebillet",
+               "crunchyroll","funimation","hbo","cnn","yahoo","apple tv","eshop","amazon luna","google stadia","game pass"]
 counter = 0
 
-for x in range(35):
+for x in range(32):
     randnum = random.randrange(len(searchwords))
     newsearch = startquery + searchwords[randnum]
     searchwords.pop(randnum)
