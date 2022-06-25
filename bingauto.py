@@ -2,6 +2,8 @@ import webbrowser
 import random
 import time
 
+counter = 0
+
 #path to edge app
 edge_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 
@@ -20,16 +22,16 @@ searchwords = ["amazon","2022","2021","google","weather","news","steam","faceboo
                "peacock","disney plus","gmail","outlook","teams","protonmail","fidelity","vanguard","netflix","paramount",
                "vudu","fandango","rotten tomatoes","humble bundle","fanatical","indiegala","gamesplanet","dlgamer","gamersgate","gamebillet",
                "crunchyroll","funimation","hbo","cnn","yahoo","apple tv","eshop","amazon luna","google stadia","game pass"]
-counter = 0
 
-for x in range(32):
+for x in range(35):
     randnum = random.randrange(len(searchwords))
     newsearch = startquery + searchwords[randnum]
+    #Removes word so it doesn't repeat
     searchwords.pop(randnum)
     webbrowser.get('edge').open(newsearch)
     time.sleep(1.7)
     counter+=1
 
-input("Completed " + str(counter) + " searches")
+input("Completed " + str(counter) + " searches.")
 
 
