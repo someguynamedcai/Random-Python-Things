@@ -3,40 +3,58 @@ import datetime
 import os
 import re
 
+#All variables needed to calculate
 total = 0
 price = 1
 counter = 0
+totaltax = 0
+totalpremium = 0
 allitems = 0
+allauctions = 0
 currentdate = str(datetime.datetime.now())
-print (currentdate)
+
 historyfile = open("TotalPaidBidrl.txt","a+")
-if os.stat("TotalPaidBidrl.txt").st_size > 0:
-        historyfile.write("\nDate:" + currentdate + "\n")
-else:
-        historyfile.write("Date:" + currentdate + "\n")
-        
+
 while (price != 0):
     try:
-        price = input("What is the price? (type exit to close program): ")
+        price = input("What is the price? (type exit or close to close program): ")
 
-        if (price == "exit" or price == "Exit"):
-            print ("Program End")
+        if (price == "exit" or price == "Exit" or price == "close" or price == "Close"):
             break
 
-        tax = float(price) * (.0825)
+        #Calculating and printing text
+        tax = float(price) * (.0875)
         premium = float(price) * (.13)
         total = float(price) + tax + premium
-        allitems = allitems + total
-        print ("\nThe tax (8.25%) paid is " + str(tax) + ".")
+        allitems = round(allitems + total,3)
+        totaltax = round(totaltax + tax,3)
+        totalpremium = round(totalpremium + premium,3)
+        print ("\nThe tax (8.75%) paid is " + str(tax) + ".")
         print ("The premium (13%) paid is " + str(premium) + ".")
         print ("The total paid is " + (str(total) + "."))
+        print ("\nThe total cost of tax for all items is " + str(totaltax))
+        print ("The total cost of the premium for all items is " + str(totalpremium))
         print ("For all " + str(counter+1) + " items paid it is " + str(allitems) + ".")
         counter += 1
-    except:
+    except ValueError:
         print ("Invalid input. Try again")
-        
-historyfile.write("Total:$" + str(allitems) + " Items: " + str(counter) + "\n")
 
-histryofile. 
-historyfile.close()
+#Will only write to file if a real price was added
+if counter > 0:
+        print ("Information has been written to TotalPaidBidrl.txt")
+        #Not sure why it only writes to a new line with 2 \n compared to 1
+        if os.stat("TotalPaidBidrl.txt").st_size > 0:
+                historyfile.write("\n\nDate:" + currentdate + "\n")
+        else:
+               historyfile.write("Date:" + currentdate + "\n")
+               allauctions = allauctions + allitems
+        historyfile.write("Total:$" + str(allitems) + "\nItems:" + str(counter) + "\n")
+        historyfile.write("Total Premium: " + str(totalpremium) + " Total Tax: " + str(totaltax) + "\n")
+        with open('TotalPaidBidrl.txt') as pricefile:
+                for line in pricefile:
+                        if (line[0:6] == "Total:"):
+                                allauctions = allitems + float(line[7:12])
+        historyfile.write("Total of all items paid: $" + str(allauctions))
+        historyfile.close()
+
 
