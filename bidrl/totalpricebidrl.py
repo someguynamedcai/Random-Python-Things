@@ -48,13 +48,13 @@ if counter > 0:
         else:
                historyfile.write("Date:" + currentdate + "\n")
                allauctions = allauctions + allitems
-        historyfile.write("Total:$" + str(allitems) + "\nItems:" + str(counter) + "\n")
-        historyfile.write("Total Premium: " + str(totalpremium) + " Total Tax: " + str(totaltax) + "\n")
+        historyfile.write("Total: $" + str(allitems) + "\nItems: " + str(counter) + "\n")
+        historyfile.write("Total Premium: $" + str(totalpremium) + " Total Tax: $" + str(totaltax) + "\n")
         with open('TotalPaidBidrl.txt') as pricefile:
                 for line in pricefile:
-                        if (line[0:6] == "Total:"):
-                                allauctions = allitems + float(line[7:12])
-        historyfile.write("Total of all items paid: $" + str(allauctions))
+                        if (line[0:12] == "Total of all"):
+                                allauctions = allitems + float(line[26:32])
+        historyfile.write("Total of all items paid: $" + str(round(allauctions,3)))
         historyfile.close()
 
 
