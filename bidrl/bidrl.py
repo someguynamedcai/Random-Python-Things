@@ -73,6 +73,7 @@ NPost = requests.post(getitems, data = NItems).json()
 GPost = requests.post(getitems, data = GItems).json()
 
 
+
 SItem1 = SPost['items'][0]['title']
 EItem1 = EPost['items'][0]['title']
 RItem1 = RPost['items'][0]['title']
@@ -108,6 +109,14 @@ NItemtime = float(NPost['items'][0]['ends']) + 7200
 Ntimeleft = NItemtime - currentunixtime
 GItemtime = float(GPost['items'][0]['ends']) + 7200
 Gtimeleft = GItemtime - currentunixtime
+
+def Oneitem(location,ID):
+    if (location == "R"):
+        RPost = requests.post("https://www.bidrl.com/api/ItemData", data = {"item_id": ID,}).json()
+        RItemtime = float(RPost[end_time]) + 7200
+        Rtimeleft = RItemtime - currentunixtime
+        print ("This item will close in " + str(datetime.timedelta(seconds = Etimeleft)))
+        
 
 print ("There are " + str(Sjson['total']) + " auction galleries available at Sacramento.")
 print ("There are " + str(Ejson['total']) + " auction galleries available at Elk Grove.")
@@ -154,18 +163,20 @@ else:
     print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Ejson['auctions'][1]['auction_id_slug']  + "\n")
     print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
     
-
 if Rtimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + RItem1 + ".")
     print ("The first item's current bid is at " + RPost['items'][0]['current_bid'] + ".")
     print ("The total price calculated with the 8.25% tax and 13% buyer's premium is " + str(float(RPost['items'][0]['current_bid']) * .0825 + float(RPost['items'][0]['current_bid']) + float(RPost['items'][0]['current_bid']) * .13))
-    if (Rtimeleft < 0):
-        print ("The current gallery is closing items right now.")
+    if (Rjson['auctions']['1']['item_count'] == "1"):
+        Oneitem(R,Rjson['auctions']['1']['item_id'])
     else:
-        print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
-    print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rjson['auctions']['1']['auction_id_slug'] + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+        if (Rtimeleft < 0):
+            print ("The current gallery is closing items right now.")
+        else:
+            print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
+        print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rjson['auctions']['1']['auction_id_slug'] + "\n")
+        print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 else:
     Rtimes = Rjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
