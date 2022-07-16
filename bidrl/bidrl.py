@@ -124,6 +124,7 @@ print ("There are " + str(Rjson['total']) + " auction galleries available at Ran
 print ("There are " + str(Cjson['total']) + " auction galleries available at Citrus Heights.")
 print ("There are " + str(Njson['total']) + " auction galleries available at Natomas.")
 print ("There are " + str(Gjson['total']) + " auction galleries available at Galt.\n")
+print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 #Information on the most recent auction and when the first item closes
 if Stimes.find("First Item Closes") != -1:
@@ -136,13 +137,13 @@ if Stimes.find("First Item Closes") != -1:
     else:
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Stimeleft)))
     print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Sjson['auctions']['1']['auction_id_slug']  + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 else:
     Stimes = Sjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
     print ("An auction has recently closed. The next auction gallery in Sacramento is a " + (Sjson['auctions']['2']['title']))
     print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Sjson['auctions']['2']['auction_id_slug'] + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
     
 
 if Etimes.find("First Item Closes") != -1:
@@ -155,13 +156,13 @@ if Etimes.find("First Item Closes") != -1:
     else:
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Etimeleft)))
     print (Etimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Ejson['auctions'][0]['auction_id_slug']  + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 else:
     Etimes = Ejson['auctions'][1]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
     print ("An auction has recently closed. The next auction gallery in Elk Grove is a " + (Ejson['auctions'][1]['title']))
     print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Ejson['auctions'][1]['auction_id_slug']  + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
     
 if Rtimes.find("Closing Time") != -1:
     print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
@@ -176,13 +177,13 @@ if Rtimes.find("Closing Time") != -1:
         else:
             print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
     print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rjson['auctions']['1']['auction_id_slug'] + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 else:
     Rtimes = Rjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
     print ("An auction has recently closed. The next auction gallery in Rancho Cordova is a " + (Rjson['auctions']['2']['title']))
     print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rjson['auctions']['2']['auction_id_slug'] + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
     
 if Ctimes.find("First Item Closes") != -1:
@@ -195,13 +196,13 @@ if Ctimes.find("First Item Closes") != -1:
     else:
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ctimeleft)))
     print (Ctimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Cjson['auctions']['1']['auction_id_slug']  + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 else:
     Ctimes = Cjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
     print ("An auction has recently closed. The next auction gallery in Citrus Heights is a " + (Cjson['auctions']['2']['title']))
     print (Ctimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Cjson['auctions']['2']['auction_id_slug'] + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 
 if Ntimes.find("First Item Closes") != -1:
@@ -214,13 +215,13 @@ if Ntimes.find("First Item Closes") != -1:
     else :    
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ntimeleft)))
     print (Ntimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Njson['auctions']['1']['auction_id_slug']  + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 else:
     Ntimes = Njson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
     print ("An auction has recently closed. The next auction gallery in Natomas is a " + (Njson['auctions']['2']['title']))
     print (Ntimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Njson['auctions']['2']['auction_id_slug'] + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 
 if Gtimes.find("First Item Closes") != -1:
@@ -233,13 +234,13 @@ if Gtimes.find("First Item Closes") != -1:
     else :    
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Gtimeleft)))
     print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions']['2']['auction_id_slug']  + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 else:
     Gtimes = Gjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
     print ("An auction has recently closed. The next auction gallery in Galt is a " + (Gjson['auctions']['3']['title']))
     print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions']['3']['auction_id_slug'] + "\n")
-    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 
 
