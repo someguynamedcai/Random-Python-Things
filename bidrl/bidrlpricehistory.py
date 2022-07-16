@@ -1,4 +1,4 @@
-#AS of 6/15/2022 This is only useful for games auctions as the owners of the website do not give enough detail on items that are not games
+#AS of 6/15/2022 This is only useful for games auctions as the owners of the website do not give enough detail on items. For games it is easy to search for just by title
 
 import json
 import requests
@@ -87,6 +87,7 @@ Cleanquery = re.compile(re.escape('see pictures'), re.IGNORECASE)
 def Itemcheck(location):
     while (True):
         try:
+            print ("-------------------------------------------------------------------------------------------------------")
             number = input("Type in a number or type exit to go back to the previous prompt (1-12 only): ")
             number = str(number)
             if number == "exit" or number == "Exit":
@@ -132,6 +133,7 @@ def Itemcheck(location):
         except:
             print("Invalid input. Please try again.")
 
+print ("The following locations are : Sacramento, Elk Grove, Rancho Cordova, Citrus Heights, Natomas, and Galt.")
 Redirectto = input("\nPlease type a location to go to or type in 'Exit' to exit: ")
 while Redirectto != "No":
     if (Redirectto == "Sacramento" or Redirectto == "sacramento" or Redirectto == 's' or Redirectto == 'S'):
