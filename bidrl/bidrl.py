@@ -115,7 +115,6 @@ def Oneitem(location,ID):
         RPost = requests.post("https://www.bidrl.com/api/ItemData", data = {"item_id": ID,}).json()
         RItemtime = float(RPost['end_time']) + 7200
         Rtimeleft = RItemtime - currentunixtime
-        print (Rtimeleft)
         print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
         
 
@@ -130,8 +129,8 @@ print ("There are " + str(Gjson['total']) + " auction galleries available at Gal
 if Stimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Sacramento is a " + (Sjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + SItem1 + ".")
-    print ("The first item's current bid is at " + SPost['items'][0]['current_bid'] + ".")
-    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is " + str(float(SPost['items'][0]['current_bid']) * .082525 + float(SPost['items'][0]['current_bid']) + float(SPost['items'][0]['current_bid']) * .13))
+    print ("The first item's current bid is at $" + SPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(SPost['items'][0]['current_bid']) * .082525 + float(SPost['items'][0]['current_bid']) + float(SPost['items'][0]['current_bid']) * .13))
     if (Stimeleft < 0):
         print ("The current gallery is closing items right now.")
     else:
@@ -149,8 +148,8 @@ else:
 if Etimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Elk Grove is a " + (Ejson['auctions'][0]['title']))
     print ("The first item in this gallery is titled " + EItem1 + ".")
-    print ("The first item's current bid is at " + EPost['items'][0]['current_bid'] + ".")
-    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is " + str(float(EPost['items'][0]['current_bid']) * .0825 + float(EPost['items'][0]['current_bid']) + float(EPost['items'][0]['current_bid']) * .13))
+    print ("The first item's current bid is at $" + EPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(EPost['items'][0]['current_bid']) * .0825 + float(EPost['items'][0]['current_bid']) + float(EPost['items'][0]['current_bid']) * .13))
     if (Etimeleft < 0):
         print ("The current gallery is closing items right now.")
     else:
@@ -167,8 +166,8 @@ else:
 if Rtimes.find("Closing Time") != -1:
     print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + RItem1 + ".")
-    print ("The first item's current bid is at " + RPost['items'][0]['current_bid'] + ".")
-    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is " + str(float(RPost['items'][0]['current_bid']) * .0825 + float(RPost['items'][0]['current_bid']) + float(RPost['items'][0]['current_bid']) * .13))
+    print ("The first item's current bid is at $" + RPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(RPost['items'][0]['current_bid']) * .0825 + float(RPost['items'][0]['current_bid']) + float(RPost['items'][0]['current_bid']) * .13))
     if (Rjson['auctions']['1']['item_count'] == "1"):
         Oneitem("R",Rjson['auctions']['1']['item_id'])
     else:
@@ -189,8 +188,8 @@ else:
 if Ctimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Citrus Heights is a " + (Cjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + CItem1 + ".")
-    print ("The first item's current bid is at " + CPost['items'][0]['current_bid'] + ".")
-    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is " + str(float(CPost['items'][0]['current_bid']) * .0825 + float(CPost['items'][0]['current_bid']) + float(CPost['items'][0]['current_bid']) * .13))
+    print ("The first item's current bid is at $" + CPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(CPost['items'][0]['current_bid']) * .0825 + float(CPost['items'][0]['current_bid']) + float(CPost['items'][0]['current_bid']) * .13))
     if (Ctimeleft < 0):
         print ("The current gallery is closing items right now.")
     else:
@@ -208,8 +207,8 @@ else:
 if Ntimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Natomas is a " + (Njson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + NItem1 + ".")
-    print ("The first item's current bid is at " + NPost['items'][0]['current_bid'] + ".")
-    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is " + str(float(NPost['items'][0]['current_bid']) * .0825 + float(NPost['items'][0]['current_bid']) + float(NPost['items'][0]['current_bid']) * .13)) 
+    print ("The first item's current bid is at $" + NPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(NPost['items'][0]['current_bid']) * .0825 + float(NPost['items'][0]['current_bid']) + float(NPost['items'][0]['current_bid']) * .13)) 
     if (Ntimeleft < 0):
         print ("The current gallery is closing items right now.")
     else :    
@@ -224,23 +223,23 @@ else:
     print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 
-#if Gtimes.find("Closing Time") != -1:
-print ("The first auction gallery in Galt is a " + (Gjson['auctions']['2']['title']))
-print ("The first item in this gallery is titled " + GItem1 + ".")
-print ("The first item's current bid is at " + GPost['items'][0]['current_bid'] + ".")
-print ("The total price calculated with the 8.25% tax and 13% buyer's premium is " + str(float(GPost['items'][0]['current_bid']) * .0825 + float(GPost['items'][0]['current_bid']) + float(GPost['items'][0]['current_bid']) * .13))
-if (Gtimeleft < 0):
-    print ("The current gallery is closing items right now.")
-else :    
-    print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Gtimeleft)))
-print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions']['2']['auction_id_slug']  + "\n")
-print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+if Gtimes.find("First Item Closes") != -1:
+    print ("The first auction gallery in Galt is a " + (Gjson['auctions']['2']['title']))
+    print ("The first item in this gallery is titled " + GItem1 + ".")
+    print ("The first item's current bid is at $" + GPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(GPost['items'][0]['current_bid']) * .0825 + float(GPost['items'][0]['current_bid']) + float(GPost['items'][0]['current_bid']) * .13))
+    if (Gtimeleft < 0):
+        print ("The current gallery is closing items right now.")
+    else :    
+        print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Gtimeleft)))
+    print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions']['2']['auction_id_slug']  + "\n")
+    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
 
-#else:
-   # Gtimes = Gjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-    #print ("An auction has recently closed. The next auction gallery in Galt is a " + (Gjson['auctions']['3']['title']))
-    #print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions']['3']['auction_id_slug'] + "\n")
-    #print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
+else:
+    Gtimes = Gjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+    print ("An auction has recently closed. The next auction gallery in Galt is a " + (Gjson['auctions']['3']['title']))
+    print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions']['3']['auction_id_slug'] + "\n")
+    print ("---------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 
 
