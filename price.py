@@ -1,20 +1,23 @@
-#Doesn't work as coindesk has changed their website.
-import urllib.request
-price = urllib.request.urlopen("https://www.coindesk.com/price/bitcoin")
+from urllib.request import Request, urlopen
 
-html_bytes = price.read()
-html = html_bytes.decode("utf-8")
-pricefind = html.find("class='typography__StyledTypography-owin6q-0 jvRAOp'")
-currentprice = html[pricefind+49:pricefind+58]
+req = Request('https://www.google.com/search?&q=bitcoin', headers={'User-Agent': 'Mozilla/5.0'})
+webpage = urlopen(req).read()
+html = webpage.decode("utf-8")
+
+#price = urllib.request.urlopen("https://www.google.com/search?&q=bitcoin")
+#html_bytes = price.read()
+pricefind = html.find("United States Dollar")
+print (pricefind)
+currentprice = html[pricefind-10:pricefind-1]
 print (currentprice)
 currentprice = float(currentprice.replace(',',''))
 buyin = None
 buyinprice = None
 
 while buyin == None:
-    buyin = int(input("How much did bitcoin you buy? "))
+    buyin = float(input("How much did bitcoin you buy? "))
 while buyinprice == None:
-    buyinprice = int(input("How much was it worth? "))
+    buyinprice = float(input("How much was it worth? "))
     
 difference = ((currentprice/buyinprice) - 1)
 print ("The current price is " + str(currentprice) + ".")
