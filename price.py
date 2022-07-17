@@ -25,10 +25,10 @@ while buyinprice == None:
     
 moneyin = buyin * buyinprice
 difference = ((currentprice/buyinprice) - 1)
-print ("The current price is $" + str(currentprice) + ".")
+print ("The current price for bitcoin is $" + str(currentprice) + ".")
 if difference > 0:
     print ("Today it has increased by " + str(difference*100) + "%.")
 else:
     print ("Today it has decreased by " + str(1-difference*100) + "%.")
 
-print ("Selling all of your bitcoin now will net you a profit of " + (str((buyin * currentprice)-moneyin)) + " dollars.")
+End = input("Selling all of your bitcoin now will net you a profit of " + (str((buyin * currentprice)-moneyin)) + " dollars.")
