@@ -164,7 +164,7 @@ else:
     print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Ejson['auctions'][1]['auction_id_slug']  + "\n")
     print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
     
-if Rtimes.find("Closing Time") != -1:
+if Rtimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + RItem1 + ".")
     print ("The first item's current bid is at $" + RPost['items'][0]['current_bid'] + ".")
