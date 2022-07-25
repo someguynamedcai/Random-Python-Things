@@ -20,6 +20,8 @@ Npage = requests.get("https://www.bidrl.com/api/landingPage/natomas-39")
 Njson = Npage.json()
 Gpage = requests.get("https://www.bidrl.com/api/landingPage/galt-7")
 Gjson = Gpage.json()
+ESpage = requests.get("https://www.bidrl.com/api/landingPage/east-sacramento-45")
+ESjson = ESpage.json()
 
 #Json page which has all auction item information
 getitems = "https://www.bidrl.com/api/getitems"
@@ -55,6 +57,11 @@ for Gauctions in Gjson['auctions'].keys():
     if Gjson['auctions'][Gauctions]['status'] == "open":
         G_Id = Gjson['auctions'][Gauctions]['id']
         break
+
+for ESauctions in range(len(ESjson['auctions'])):
+    if (ESjson['auctions'][ESauctions]['status'] == "open"):
+        ES_Id = ESjson['auctions'][ESauctions]['id']
+        break
     
 #Putting it into format for POST to getitems json page
 SItems = {"auction_id": S_Id,}
@@ -63,6 +70,7 @@ RItems = {"auction_id": R_Id,}
 CItems = {"auction_id": C_Id,}
 NItems = {"auction_id": N_Id,}
 GItems = {"auction_id": G_Id,}
+ESItems = {"auction_id": ES_Id,}
 
 #Retrieves item information from most recent gallery
 SPost = requests.post(getitems, data = SItems).json()
@@ -71,7 +79,7 @@ RPost = requests.post(getitems, data = RItems).json()
 CPost = requests.post(getitems, data = CItems).json()
 NPost = requests.post(getitems, data = NItems).json()
 GPost = requests.post(getitems, data = GItems).json()
-
+ESPost = requests.post(getitems, data = ESItems).json()
 
 
 SItem1 = SPost['items'][0]['title']
@@ -80,6 +88,8 @@ RItem1 = RPost['items'][0]['title']
 CItem1 = CPost['items'][0]['title']
 NItem1 = NPost['items'][0]['title']
 GItem1 = GPost['items'][0]['title']
+ESItem1 = ESPost['items'][0]['title']
+
 
 #For some reason Galt json starts out with 2
 Stimes = Sjson['auctions']['1']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
@@ -88,6 +98,7 @@ Rtimes = Rjson['auctions']['1']['info_div'].replace("<b>","").replace("</b>"," "
 Ctimes = Cjson['auctions']['1']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
 Ntimes = Njson['auctions']['1']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
 Gtimes = Gjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+EStimes = ESjson['auctions'][0]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
 
 
 #Current date and time 
@@ -109,7 +120,10 @@ NItemtime = float(NPost['items'][0]['ends']) + 7200
 Ntimeleft = NItemtime - currentunixtime
 GItemtime = float(GPost['items'][0]['ends']) + 7200
 Gtimeleft = GItemtime - currentunixtime
+ESItemtime = float(ESPost['items'][0]['ends']) + 7200
+EStimeleft = ESItemtime - currentunixtime
 
+#Seems to only be for the Rancho Cordova location
 def Oneitem(location,ID):
     if (location == "R"):
         RPost = requests.post("https://www.bidrl.com/api/ItemData", data = {"item_id": ID,}).json()
@@ -123,7 +137,8 @@ print ("There are " + str(Ejson['total']) + " auction galleries available at Elk
 print ("There are " + str(Rjson['total']) + " auction galleries available at Rancho Cordova.")
 print ("There are " + str(Cjson['total']) + " auction galleries available at Citrus Heights.")
 print ("There are " + str(Njson['total']) + " auction galleries available at Natomas.")
-print ("There are " + str(Gjson['total']) + " auction galleries available at Galt.\n")
+print ("There are " + str(Gjson['total']) + " auction galleries available at Galt.")
+print ("There are " + str(ESjson['total']) + " auction galleries available at East Sacramento.\n")
 print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 #Information on the most recent auction and when the first item closes
@@ -242,7 +257,23 @@ else:
     print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions']['3']['auction_id_slug'] + "\n")
     print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
+if EStimes.find("First Item Closes") != -1:
+    print ("The first auction gallery in East Sacramento is a " + (ESjson['auctions'][0]['title']))
+    print ("The first item in this gallery is titled " + ESItem1 + ".")
+    print ("The first item's current bid is at $" + ESPost['items'][0]['current_bid'] + ".")
+    print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(ESPost['items'][0]['current_bid']) * .082525 + float(ESPost['items'][0]['current_bid']) + float(ESPost['items'][0]['current_bid']) * .13))
+    if (EStimeleft < 0):
+        print ("The current gallery is closing items right now.")
+    else:
+        print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = EStimeleft)))
+    print (EStimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  ESjson['auctions'][0]['auction_id_slug']  + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
+else:
+    EStimes = ESjson['auctions'][1]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+    print ("An auction has recently closed. The next auction gallery in East Sacramento is a " + (ESjson['auctions'][1]['title']))
+    print (EStimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  ESjson['auctions'][1]['auction_id_slug'] + "\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 #Finding out where edge is located on computer to open web page
 edge_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
@@ -283,6 +314,10 @@ while Redirectto != "No":
     elif (Redirectto == "Galt" or Redirectto == "galt" or Redirectto == 'g' or Redirectto == 'G'):
         print ("Opening up the most recent Galt gallery.\n")
         Fulllink = Startlink + Gjson['auctions']['2']['auction_id_slug']
+        webbrowser.get('edge').open(Fulllink)
+    elif (Redirectto == "East Sacramento" or Redirectto == "east sacramento" or Redirectto == 'es' or Redirectto == 'ES' or Redirectto == 'Es' or Redirectto == 'east' or Redirectto == 'East'):
+        print ("Opening up the most recent East Sacramento gallery.\n")
+        Fulllink = Startlink + ESjson['auctions'][0]['auction_id_slug']
         webbrowser.get('edge').open(Fulllink)
     else:
         print("Keyword not valid or recognized. Please type again:")
