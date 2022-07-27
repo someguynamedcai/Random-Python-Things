@@ -1,8 +1,8 @@
 from urllib.request import Request, urlopen
 gameurl = ""
-playercount = 0
-
 while (True):
+    playercount = 0
+    playercountfix = ""
     game = (input("Type in an game to see Steamcharts stats or type Exit to exit: "))
     if (game == "Exit" or game == "exit"):
         break
@@ -19,14 +19,20 @@ while (True):
     html = webpage.decode("utf-8")
     playerfind = html.find("right num")
     playercount = html[playerfind+11:playerfind+17]
-    print (playercount)
-    print (playercount.isalpha())
-    if (playercount.isalpha() == True):
-        print ("Steamcharts could not find any results for your search. Please try again.")
-    elif playercount == "0":
-        print ("Steamcharts sees there are zero players. You may have typed your query wrong in some cases.") 
-    else:   
-        print ("Steamcharts indicates there are " + playercount + " players currently playing the game right now.")
+
+    for count in range(len(playercount)):
+        if playercount[count].isnumeric() == False:
+            break
+        playercountfix = playercountfix + (playercount[count])
+    try:
+        if (int(playercountfix) == 0):
+            print ("Steamcharts sees there are zero players. You may have typed your query wrong in some cases.")
+        elif int(playercountfix) > 0:
+            print ("Steamcharts indicates there are " + playercountfix + " players currently playing the game right now.")
+        else:   
+            print ("Steamcharts could not find any results for your search. Please try again.")
+    except ValueError:
+        print ("The following game cannot be found. Please correct your search.")
 
 
 
