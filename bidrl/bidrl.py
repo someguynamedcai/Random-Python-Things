@@ -5,6 +5,13 @@ import requests
 import datetime
 import time
 import webbrowser
+
+#Current date and time 
+currenttime = datetime.datetime.now()
+currentunixtime = time.time()
+
+print ("Today is " + str(currenttime.date()) + ".\nThe time is " + str(currenttime.time()) + "\n")
+
 # read all data
 
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
@@ -22,6 +29,15 @@ Gpage = requests.get("https://www.bidrl.com/api/landingPage/galt-7")
 Gjson = Gpage.json()
 ESpage = requests.get("https://www.bidrl.com/api/landingPage/east-sacramento-45")
 ESjson = ESpage.json()
+
+print ("There are " + str(Sjson['total']) + " auction galleries available at Sacramento.")
+print ("There are " + str(Ejson['total']) + " auction galleries available at Elk Grove.")
+print ("There are " + str(Rjson['total']) + " auction galleries available at Rancho Cordova.")
+print ("There are " + str(Cjson['total']) + " auction galleries available at Citrus Heights.")
+print ("There are " + str(Njson['total']) + " auction galleries available at Natomas.")
+print ("There are " + str(Gjson['total']) + " auction galleries available at Galt.")
+print ("There are " + str(ESjson['total']) + " auction galleries available at East Sacramento.\n")
+print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 #Json page which has all auction item information
 getitems = "https://www.bidrl.com/api/getitems"
@@ -62,7 +78,7 @@ for ESauctions in range(len(ESjson['auctions'])):
     if (ESjson['auctions'][str(ESauctions+1)]['status'] == "open"):
         ES_Id = ESjson['auctions'][str(ESauctions+1)]['id']
         break
-    
+   
 #Putting it into format for POST to getitems json page
 SItems = {"auction_id": S_Id,}
 EItems = {"auction_id": E_Id,}
@@ -91,6 +107,7 @@ GItem1 = GPost['items'][0]['title']
 ESItem1 = ESPost['items'][0]['title']
 
 
+
 #For some reason Galt json starts out with 2
 Stimes = Sjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
 Etimes = Ejson['auctions'][0]['info_div'].replace("<b>"," ").replace("</b>","").replace("<br>","").replace("<br />","")
@@ -100,12 +117,6 @@ Ntimes = Njson['auctions']['1']['info_div'].replace("<b>","").replace("</b>"," "
 Gtimes = Gjson['auctions']['3']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
 EStimes = ESjson['auctions']['1']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
 
-
-#Current date and time 
-currenttime = datetime.datetime.now()
-currentunixtime = time.time()
-
-print ("Today is " + str(currenttime.date()) + ".\nThe time is " + str(currenttime.time()) + "\n")
 
 #Calculating the time left before the first item closes
 SItemtime = float(SPost['items'][0]['ends']) + 7200
@@ -129,17 +140,7 @@ def Oneitem(location,ID):
         RPost = requests.post("https://www.bidrl.com/api/ItemData", data = {"item_id": ID,}).json()
         RItemtime = float(RPost['end_time']) + 7200
         Rtimeleft = RItemtime - currentunixtime
-        print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
-        
-
-print ("There are " + str(Sjson['total']) + " auction galleries available at Sacramento.")
-print ("There are " + str(Ejson['total']) + " auction galleries available at Elk Grove.")
-print ("There are " + str(Rjson['total']) + " auction galleries available at Rancho Cordova.")
-print ("There are " + str(Cjson['total']) + " auction galleries available at Citrus Heights.")
-print ("There are " + str(Njson['total']) + " auction galleries available at Natomas.")
-print ("There are " + str(Gjson['total']) + " auction galleries available at Galt.")
-print ("There are " + str(ESjson['total']) + " auction galleries available at East Sacramento.\n")
-print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+        print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))        
 
 #Information on the most recent auction and when the first item closes
 if Stimes.find("First Item Closes") != -1:
@@ -239,7 +240,7 @@ else:
     print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 
-if Gtimes.find("Closing Time") != -1:
+if Gtimes.find("Closing Time") != -1 or Gtimes.find("First Item Closes") != -1:
     print ("The first auction gallery in Galt is a " + (Gjson['auctions']['3']['title']))
     print ("The first item in this gallery is titled " + GItem1 + ".")
     print ("The first item's current bid is at $" + GPost['items'][0]['current_bid'] + ".")
