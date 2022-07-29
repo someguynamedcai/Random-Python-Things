@@ -5,6 +5,7 @@ import requests
 import datetime
 import time
 import webbrowser
+import keyboard
 
 #Current date and time 
 currenttime = datetime.datetime.now()
@@ -19,6 +20,13 @@ def Oneitem(location,ID):
         RItemtime = float(RPost['end_time']) + 7200
         Rtimeleft = RItemtime - currentunixtime
         print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
+def delay():
+    print ("Hold the spacebar to speed up the text.")
+    for count in range(5):
+        time.sleep(1)
+        if (keyboard.is_pressed("space") == True):
+            print ("skip")
+            break
     
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
 Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
@@ -78,6 +86,8 @@ else:
     print ("An auction has recently closed. The next auction gallery in Sacramento is a " + (Sjson['auctions']['3']['title']))
     print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Sjson['auctions']['3']['auction_id_slug'] + "\n")
     print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+
+delay()
     
 #Elk Grove Json page is not a dictionary but a list for some reason
 for Eauctions in range(len(Ejson['auctions'])):
@@ -113,6 +123,7 @@ for Rauctions in Rjson['auctions'].keys():
     if Rjson['auctions'][Rauctions]['status'] == "open":
         R_Id = Rjson['auctions'][Rauctions]['id']
         break
+delay()
 
 RItems = {"auction_id": R_Id,}
 RPost = requests.post(getitems, data = RItems).json()
@@ -146,6 +157,7 @@ for Cauctions in Cjson['auctions'].keys():
     if Cjson['auctions'][Cauctions]['status'] == "open":
         C_Id = Cjson['auctions'][Cauctions]['id']
         break
+delay()
 
 CItems = {"auction_id": C_Id,}
 CPost = requests.post(getitems, data = CItems).json()
@@ -171,6 +183,7 @@ else:
     print (Ctimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Cjson['auctions']['2']['auction_id_slug'] + "\n")
     print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
+delay()
 
 for Nauctions in Njson['auctions'].keys():    
     if Njson['auctions'][Nauctions]['status'] == "open":
@@ -201,6 +214,8 @@ else:
     print (Ntimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Njson['auctions']['2']['auction_id_slug'] + "\n")
     print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
+delay()
+
 for Gauctions in Gjson['auctions'].keys():    
     if Gjson['auctions'][Gauctions]['status'] == "open":
         G_Id = Gjson['auctions'][Gauctions]['id']
@@ -228,7 +243,8 @@ else:
     print ("An auction has recently closed. The next auction gallery in Galt is a " + (Gjson['auctions']['4']['title']))
     print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions']['4']['auction_id_slug'] + "\n")
     print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-    
+delay()
+
 for ESauctions in range(len(ESjson['auctions'])):
     if (ESjson['auctions'][str(ESauctions+1)]['status'] == "open"):
         ES_Id = ESjson['auctions'][str(ESauctions+1)]['id']
