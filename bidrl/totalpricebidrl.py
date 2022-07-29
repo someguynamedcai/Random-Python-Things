@@ -17,7 +17,7 @@ historyfile = open("TotalPaidBidrl.txt","a+")
 
 while (price != 0):
     try:
-        price = input("What is the price? (type exit or close to close program): ")
+        price = input("What is the price of all items paid? (type exit or close to close program): ")
 
         if (price == "exit" or price == "Exit" or price == "close" or price == "Close"):
             break
