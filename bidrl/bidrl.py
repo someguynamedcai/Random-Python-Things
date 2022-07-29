@@ -288,41 +288,43 @@ Startlink = "https://www.bidrl.com/auction/"
 #Input to open web page to auction gallery
 Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
 while Redirectto != "No":
-    if (Redirectto == "Sacramento" or Redirectto == "sacramento" or Redirectto == 's' or Redirectto == 'S'):
-        print ("Opening up the most recent Sacramento gallery.\n")
-        Fulllink = Startlink + Sjson['auctions']['1']['auction_id_slug']
-        webbrowser.get('edge').open(Fulllink)
-    elif (Redirectto == "Exit" or Redirectto == "exit"):
-        print ("Exiting program")
-        break
-    elif (Redirectto == "Elk Grove" or Redirectto == "elk grove" or Redirectto == "elkgrove" or Redirectto == "Elkgrove" or Redirectto == 'e' or Redirectto == 'E'):
-        print ("Opening up the most recent Elk Grove gallery.\n")
-        Fulllink = Startlink + Ejson['auctions'][1]['auction_id_slug']
-        webbrowser.get('edge').open(Fulllink)
-    elif (Redirectto == "Rancho Cordova" or Redirectto == "rancho cordova" or Redirectto == "ranchocordova" or Redirectto == "Ranchocordova" or Redirectto == 'r' or Redirectto == 'R' or Redirectto == "Rancho" or Redirectto == "rancho"):
-        print ("Opening up the most recent Rancho Cordova gallery.\n")
-        Fulllink = Startlink + Rjson['auctions']['1']['auction_id_slug']
-        webbrowser.get('edge').open(Fulllink)
-    elif (Redirectto == "Citrus Heights" or Redirectto == "citrus heights" or Redirectto == "citrusheights" or Redirectto == "Citrusheights" or Redirectto == 'C' or Redirectto == 'c'):
-        print ("Opening up the most recent Citrus Heights gallery.\n")
-        Fulllink = Startlink + Cjson['auctions']['1']['auction_id_slug']
-        webbrowser.get('edge').open(Fulllink)
-    elif (Redirectto == "Natomas" or Redirectto == "natomas" or Redirectto == 'n' or Redirectto == 'N'):
-        print ("Opening up the most recent Natomas gallery.\n")
-        Fulllink = Startlink + Njson['auctions']['1']['auction_id_slug']
-        webbrowser.get('edge').open(Fulllink)
-    elif (Redirectto == "Galt" or Redirectto == "galt" or Redirectto == 'g' or Redirectto == 'G'):
-        print ("Opening up the most recent Galt gallery.\n")
-        Fulllink = Startlink + Gjson['auctions']['2']['auction_id_slug']
-        webbrowser.get('edge').open(Fulllink)
-    elif (Redirectto == "East Sacramento" or Redirectto == "east sacramento" or Redirectto == 'es' or Redirectto == 'ES' or Redirectto == 'Es' or Redirectto == 'east' or Redirectto == 'East'):
-        print ("Opening up the most recent East Sacramento gallery.\n")
-        Fulllink = Startlink + ESjson['auctions'][0]['auction_id_slug']
-        webbrowser.get('edge').open(Fulllink)
-    else:
-        print("Keyword not valid or recognized. Please type again:")
-    Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
-
+    try:
+        if (Redirectto == "Sacramento" or Redirectto == "sacramento" or Redirectto == 's' or Redirectto == 'S'):
+            print ("Opening up the most recent Sacramento gallery.\n")
+            Fulllink = Startlink + Sjson['auctions']['2']['auction_id_slug']
+            webbrowser.get('edge').open(Fulllink)
+        elif (Redirectto == "Exit" or Redirectto == "exit"):
+            print ("Exiting program")
+            break
+        elif (Redirectto == "Elk Grove" or Redirectto == "elk grove" or Redirectto == "elkgrove" or Redirectto == "Elkgrove" or Redirectto == 'e' or Redirectto == 'E'):
+            print ("Opening up the most recent Elk Grove gallery.\n")
+            Fulllink = Startlink + Ejson['auctions'][1]['auction_id_slug']
+            webbrowser.get('edge').open(Fulllink)
+        elif (Redirectto == "Rancho Cordova" or Redirectto == "rancho cordova" or Redirectto == "ranchocordova" or Redirectto == "Ranchocordova" or Redirectto == 'r' or Redirectto == 'R' or Redirectto == "Rancho" or Redirectto == "rancho"):
+            print ("Opening up the most recent Rancho Cordova gallery.\n")
+            Fulllink = Startlink + Rjson['auctions']['1']['auction_id_slug']
+            webbrowser.get('edge').open(Fulllink)
+        elif (Redirectto == "Citrus Heights" or Redirectto == "citrus heights" or Redirectto == "citrusheights" or Redirectto == "Citrusheights" or Redirectto == 'C' or Redirectto == 'c'):
+            print ("Opening up the most recent Citrus Heights gallery.\n")
+            Fulllink = Startlink + Cjson['auctions']['1']['auction_id_slug']
+            webbrowser.get('edge').open(Fulllink)
+        elif (Redirectto == "Natomas" or Redirectto == "natomas" or Redirectto == 'n' or Redirectto == 'N'):
+            print ("Opening up the most recent Natomas gallery.\n")
+            Fulllink = Startlink + Njson['auctions']['1']['auction_id_slug']
+            webbrowser.get('edge').open(Fulllink)
+        elif (Redirectto == "Galt" or Redirectto == "galt" or Redirectto == 'g' or Redirectto == 'G'):
+            print ("Opening up the most recent Galt gallery.\n")
+            Fulllink = Startlink + Gjson['auctions']['3']['auction_id_slug']
+            webbrowser.get('edge').open(Fulllink)
+        elif (Redirectto == "East Sacramento" or Redirectto == "east sacramento" or Redirectto == 'es' or Redirectto == 'ES' or Redirectto == 'Es' or Redirectto == 'east' or Redirectto == 'East'):
+            print ("Opening up the most recent East Sacramento gallery.\n")
+            Fulllink = Startlink + ESjson['auctions']['1']['auction_id_slug']
+            webbrowser.get('edge').open(Fulllink)
+        else:
+            print("Keyword not valid or recognized. Please type again:")
+        Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
+    except KeyError:
+        print ("There has been an error in opening up the gallery. It will be fixed shortly.")
 
 
 #6/8/2022 Added more options to redirect to webpages
