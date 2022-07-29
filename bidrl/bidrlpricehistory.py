@@ -5,6 +5,9 @@ import requests
 import webbrowser
 import re
 
+
+print ("The following locations are: Sacramento, Elk Grove, Rancho Cordova, Citrus Heights, Natomas, and Galt.")
+
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
 Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
 Sjson = Spage.json()
@@ -133,7 +136,6 @@ def Itemcheck(location):
         except:
             print("Invalid input. Please try again.")
 
-print ("The following locations are : Sacramento, Elk Grove, Rancho Cordova, Citrus Heights, Natomas, and Galt.")
 Redirectto = input("\nPlease type a location to go to or type in 'Exit' to exit: ")
 while Redirectto != "No":
     if (Redirectto == "Sacramento" or Redirectto == "sacramento" or Redirectto == 's' or Redirectto == 'S'):
