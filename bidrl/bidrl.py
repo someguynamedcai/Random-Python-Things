@@ -20,6 +20,9 @@ def Oneitem(location,ID):
         RItemtime = float(RPost['end_time']) + 7200
         Rtimeleft = RItemtime - currentunixtime
         print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
+        print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" + Rauctionlink + "\n")
+        print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+
         
 def delay():
     print ("Hold the spacebar to speed up the text.\n")
@@ -131,20 +134,23 @@ RItem1 = RPost['items'][0]['title']
 Rtimes = Rjson['auctions']['1']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
 RItemtime = float(RPost['items'][0]['ends']) + 7200
 Rtimeleft = RItemtime - currentunixtime
+Rauctionlink = Rjson['auctions']['1']['auction_id_slug']
+
 if Rtimes.find("First Item Closes") != -1 or Rtimes.find("Closing Time") != -1:
     print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + RItem1 + ".")
     print ("The first item's current bid is at $" + RPost['items'][0]['current_bid'] + ".")
     print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(RPost['items'][0]['current_bid']) * .0825 + float(RPost['items'][0]['current_bid']) + float(RPost['items'][0]['current_bid']) * .13))
     if (Rjson['auctions']['1']['item_count'] == "1"):
+        Rauctionlink = Rjson['auctions']['1']['id'] + "/item/" + Rjson['auctions']['1']['item_id_slug']
         Oneitem("R",Rjson['auctions']['1']['item_id'])
     else:
         if (Rtimeleft < 0):
             print ("The current gallery is closing items right now.")
         else:
             print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
-    print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rjson['auctions']['1']['auction_id_slug'] + "\n")
-    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+        print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rauctionlink + "\n")
+        print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 else:
     Rtimes = Rjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
@@ -313,7 +319,7 @@ while Redirectto != "No":
             webbrowser.get('edge').open(Fulllink)
         elif (Redirectto == "Rancho Cordova" or Redirectto == "rancho cordova" or Redirectto == "ranchocordova" or Redirectto == "Ranchocordova" or Redirectto == 'r' or Redirectto == 'R' or Redirectto == "Rancho" or Redirectto == "rancho"):
             print ("Opening up the most recent Rancho Cordova gallery.\n")
-            Fulllink = Startlink + Rjson['auctions']['1']['auction_id_slug']
+            Fulllink = Startlink + Rauctionlink
             webbrowser.get('edge').open(Fulllink)
         elif (Redirectto == "Citrus Heights" or Redirectto == "citrus heights" or Redirectto == "citrusheights" or Redirectto == "Citrusheights" or Redirectto == 'C' or Redirectto == 'c'):
             print ("Opening up the most recent Citrus Heights gallery.\n")
