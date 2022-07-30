@@ -20,12 +20,12 @@ def Oneitem(location,ID):
         RItemtime = float(RPost['end_time']) + 7200
         Rtimeleft = RItemtime - currentunixtime
         print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
+        
 def delay():
-    print ("Hold the spacebar to speed up the text.")
+    print ("Hold the spacebar to speed up the text.\n")
     for count in range(5):
         time.sleep(1)
         if (keyboard.is_pressed("space") == True):
-            print ("skip")
             break
     
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
@@ -131,7 +131,7 @@ RItem1 = RPost['items'][0]['title']
 Rtimes = Rjson['auctions']['1']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
 RItemtime = float(RPost['items'][0]['ends']) + 7200
 Rtimeleft = RItemtime - currentunixtime
-if Rtimes.find("First Item Closes") != -1:
+if Rtimes.find("First Item Closes") != -1 or Rtimes.find("Closing Time") != -1:
     print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + RItem1 + ".")
     print ("The first item's current bid is at $" + RPost['items'][0]['current_bid'] + ".")
