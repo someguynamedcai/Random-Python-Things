@@ -134,6 +134,9 @@ Gtimeleft = GItemtime - currentunixtime
 ESItemtime = float(ESPost['items'][0]['ends']) + 7200
 EStimeleft = ESItemtime - currentunixtime
 
+
+Rauctionlink = Rjson['auctions']['1']['auction_id_slug']
+
 #Seems to only be for the Rancho Cordova location
 def Oneitem(location,ID):
     if (location == "R"):
@@ -141,6 +144,8 @@ def Oneitem(location,ID):
         RItemtime = float(RPost['end_time']) + 7200
         Rtimeleft = RItemtime - currentunixtime
         print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))        
+        print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" + Rauctionlink + "\n")
+        print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 #Information on the most recent auction and when the first item closes
 if Stimes.find("First Item Closes") != -1:
@@ -149,7 +154,7 @@ if Stimes.find("First Item Closes") != -1:
     print ("The first item's current bid is at $" + SPost['items'][0]['current_bid'] + ".")
     print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(SPost['items'][0]['current_bid']) * .082525 + float(SPost['items'][0]['current_bid']) + float(SPost['items'][0]['current_bid']) * .13))
     if (Stimeleft < 0):
-        print ("The current gallery is closing items right now.")
+        print ("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| \nThe current gallery is closing items right now!\n||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
     else:
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Stimeleft)))
     print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Sjson['auctions']['2']['auction_id_slug']  + "\n")
@@ -168,7 +173,7 @@ if Etimes.find("First Item Closes") != -1:
     print ("The first item's current bid is at $" + EPost['items'][0]['current_bid'] + ".")
     print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(EPost['items'][0]['current_bid']) * .0825 + float(EPost['items'][0]['current_bid']) + float(EPost['items'][0]['current_bid']) * .13))
     if (Etimeleft < 0):
-        print ("The current gallery is closing items right now.")
+        print ("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| \nThe current gallery is closing items right now!\n||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
     else:
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Etimeleft)))
     print (Etimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Ejson['auctions'][0]['auction_id_slug']  + "\n")
@@ -180,20 +185,21 @@ else:
     print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Ejson['auctions'][1]['auction_id_slug']  + "\n")
     print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
     
-if Rtimes.find("First Item Closes") != -1:
+if Rtimes.find("First Item Closes") != -1 or Rtimes.find("Closing Time") != -1:
     print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + RItem1 + ".")
     print ("The first item's current bid is at $" + RPost['items'][0]['current_bid'] + ".")
     print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(RPost['items'][0]['current_bid']) * .0825 + float(RPost['items'][0]['current_bid']) + float(RPost['items'][0]['current_bid']) * .13))
     if (Rjson['auctions']['1']['item_count'] == "1"):
+        Rauctionlink = Rjson['auctions']['1']['id'] + "/item/" + Rjson['auctions']['1']['item_id_slug']
         Oneitem("R",Rjson['auctions']['1']['item_id'])
     else:
         if (Rtimeleft < 0):
-            print ("The current gallery is closing items right now.")
+            print ("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| \nThe current gallery is closing items right now!\n||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
         else:
             print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
-    print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rjson['auctions']['1']['auction_id_slug'] + "\n")
-    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+        print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rjson['auctions']['1']['auction_id_slug'] + "\n")
+        print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
 
 else:
     Rtimes = Rjson['auctions']['2']['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
@@ -208,7 +214,7 @@ if Ctimes.find("First Item Closes") != -1:
     print ("The first item's current bid is at $" + CPost['items'][0]['current_bid'] + ".")
     print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(CPost['items'][0]['current_bid']) * .0825 + float(CPost['items'][0]['current_bid']) + float(CPost['items'][0]['current_bid']) * .13))
     if (Ctimeleft < 0):
-        print ("The current gallery is closing items right now.")
+        print ("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| \nThe current gallery is closing items right now!\n||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
     else:
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ctimeleft)))
     print (Ctimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Cjson['auctions']['1']['auction_id_slug']  + "\n")
@@ -227,7 +233,7 @@ if Ntimes.find("First Item Closes") != -1:
     print ("The first item's current bid is at $" + NPost['items'][0]['current_bid'] + ".")
     print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(NPost['items'][0]['current_bid']) * .0825 + float(NPost['items'][0]['current_bid']) + float(NPost['items'][0]['current_bid']) * .13)) 
     if (Ntimeleft < 0):
-        print ("The current gallery is closing items right now.")
+        print ("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| \nThe current gallery is closing items right now!\n||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
     else :    
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ntimeleft)))
     print (Ntimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Njson['auctions']['1']['auction_id_slug']  + "\n")
@@ -246,7 +252,7 @@ if Gtimes.find("Closing Time") != -1 or Gtimes.find("First Item Closes") != -1:
     print ("The first item's current bid is at $" + GPost['items'][0]['current_bid'] + ".")
     print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(GPost['items'][0]['current_bid']) * .0825 + float(GPost['items'][0]['current_bid']) + float(GPost['items'][0]['current_bid']) * .13))
     if (Gtimeleft < 0):
-        print ("The current gallery is closing items right now.")
+        print ("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| \nThe current gallery is closing items right now!\n||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
     else :    
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Gtimeleft)))
     print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions']['3']['auction_id_slug']  + "\n")
@@ -264,7 +270,7 @@ if EStimes.find("First Item Closes") != -1:
     print ("The first item's current bid is at $" + ESPost['items'][1]['current_bid'] + ".")
     print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(ESPost['items'][0]['current_bid']) * .082525 + float(ESPost['items'][0]['current_bid']) + float(ESPost['items'][0]['current_bid']) * .13))
     if (EStimeleft < 0):
-        print ("The current gallery is closing items right now.")
+        print ("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||| \nThe current gallery is closing items right now!\n||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
     else:
         print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = EStimeleft)))
     print (EStimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  ESjson['auctions']['1']['auction_id_slug']  + "\n")
@@ -303,7 +309,7 @@ while Redirectto != "No":
             webbrowser.get('edge').open(Fulllink)
         elif (Redirectto == "Rancho Cordova" or Redirectto == "rancho cordova" or Redirectto == "ranchocordova" or Redirectto == "Ranchocordova" or Redirectto == 'r' or Redirectto == 'R' or Redirectto == "Rancho" or Redirectto == "rancho"):
             print ("Opening up the most recent Rancho Cordova gallery.\n")
-            Fulllink = Startlink + Rjson['auctions']['1']['auction_id_slug']
+            Fulllink = Startlink + Rauctionlink
             webbrowser.get('edge').open(Fulllink)
         elif (Redirectto == "Citrus Heights" or Redirectto == "citrus heights" or Redirectto == "citrusheights" or Redirectto == "Citrusheights" or Redirectto == 'C' or Redirectto == 'c'):
             print ("Opening up the most recent Citrus Heights gallery.\n")
