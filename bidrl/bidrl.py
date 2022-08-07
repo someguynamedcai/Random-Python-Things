@@ -134,9 +134,12 @@ Gtimeleft = GItemtime - currentunixtime
 ESItemtime = float(ESPost['items'][0]['ends']) + 7200
 EStimeleft = ESItemtime - currentunixtime
 
+<<<<<<< HEAD
 
 Rauctionlink = Rjson['auctions']['1']['auction_id_slug']
 
+=======
+>>>>>>> parent of 9583f90 (Restructured)
 #Seems to only be for the Rancho Cordova location
 def Oneitem(location,ID):
     if (location == "R"):
@@ -144,8 +147,11 @@ def Oneitem(location,ID):
         RItemtime = float(RPost['end_time']) + 7200
         Rtimeleft = RItemtime - currentunixtime
         print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))        
+<<<<<<< HEAD
         print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" + Rauctionlink + "\n")
         print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+=======
+>>>>>>> parent of 9583f90 (Restructured)
 
 #Information on the most recent auction and when the first item closes
 if Stimes.find("First Item Closes") != -1:
@@ -185,7 +191,11 @@ else:
     print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Ejson['auctions'][1]['auction_id_slug']  + "\n")
     print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
     
+<<<<<<< HEAD
 if Rtimes.find("First Item Closes") != -1 or Rtimes.find("Closing Time") != -1:
+=======
+if Rtimes.find("First Item Closes") != -1:
+>>>>>>> parent of 9583f90 (Restructured)
     print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions']['1']['title']))
     print ("The first item in this gallery is titled " + RItem1 + ".")
     print ("The first item's current bid is at $" + RPost['items'][0]['current_bid'] + ".")
