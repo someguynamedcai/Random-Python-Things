@@ -4,6 +4,9 @@ import json
 import requests
 import webbrowser
 import re
+import time
+
+print ("The following locations are: Sacramento, Elk Grove, Rancho Cordova, Citrus Heights, Natomas, Galt, and East Sacramento. \nPlease wait while the auction information is being loaded.")
 
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
 Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
@@ -18,6 +21,8 @@ Npage = requests.get("https://www.bidrl.com/api/landingPage/natomas-39")
 Njson = Npage.json()
 Gpage = requests.get("https://www.bidrl.com/api/landingPage/galt-7")
 Gjson = Gpage.json()
+ESpage = requests.get("https://www.bidrl.com/api/landingPage/east-sacramento-45")
+ESjson = ESpage.json()
 
 #Json page which has all auction item information
 getitems = "https://www.bidrl.com/api/getitems"
@@ -57,13 +62,20 @@ for Gauctions in Gjson['auctions'].keys():
         G_Id = Gjson['auctions'][Gauctions]['id']
         break
     
+for ESauctions in range(len(ESjson['auctions'])):
+    if (ESjson['auctions'][str(ESauctions+1)]['status'] == "open"):
+        ES_Id = ESjson['auctions'][str(ESauctions+1)]['id']
+        break
+
 #Putting it into format for POST to getitems json page
-SItems = {"auction_id": S_Id,}
-EItems = {"auction_id": E_Id,}
-RItems = {"auction_id": R_Id,}
-CItems = {"auction_id": C_Id,}
-NItems = {"auction_id": N_Id,}
-GItems = {"auction_id": G_Id,}
+SItems = {"auction_id": S_Id, "filters[perpage]": Sjson['auctions']['2']['item_count'] }
+EItems = {"auction_id": E_Id, "filters[perpage]": Ejson['auctions'][0]['item_count']}
+RItems = {"auction_id": R_Id, "filters[perpage]": Rjson['auctions']['1']['item_count']}
+CItems = {"auction_id": C_Id, "filters[perpage]": Cjson['auctions']['1']['item_count']}
+NItems = {"auction_id": N_Id, "filters[perpage]": Njson['auctions']['1']['item_count']}
+GItems = {"auction_id": G_Id, "filters[perpage]": Gjson['auctions']['3']['item_count']}
+ESItems = {"auction_id": ES_Id, "filters[perpage]": ESjson['auctions']['1']['item_count']}
+
 
 #Retrieves item information from most recent gallery"
 SPost = requests.post(getitems, data = SItems).json()
@@ -72,6 +84,8 @@ RPost = requests.post(getitems, data = RItems).json()
 CPost = requests.post(getitems, data = CItems).json()
 NPost = requests.post(getitems, data = NItems).json()
 GPost = requests.post(getitems, data = GItems).json()
+ESPost = requests.post(getitems, data = ESItems).json()
+
 
 
 SItem1 = SPost['items'][0]['title']
@@ -80,6 +94,8 @@ RItem1 = RPost['items'][0]['title']
 CItem1 = CPost['items'][0]['title']
 NItem1 = NPost['items'][0]['title']
 GItem1 = GPost['items'][0]['title']
+ESItem1 = ESPost['items'][0]['title']
+
 
 
 Cleanquery = re.compile(re.escape('see pictures'), re.IGNORECASE)
@@ -91,54 +107,84 @@ def Itemcheck(location):
             number = input("Type in a number or type exit to go back to the previous prompt (1-12 only): ")
             number = str(number)
             if number == "exit" or number == "Exit":
+                print ("Exiting current location.")
                 return 
             else:
                 match location:
                     case 'S':
                         print ("Item number " + number + " is titled " + SPost['items'][int(number)-1]['title'])
                         print ("The current price of item number " + number + " is $" + SPost['items'][int(number)-1]['current_bid'])
+                        print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(SPost['items'][0]['current_bid']) * .0825 + float(SPost['items'][0]['current_bid']) + float(SPost['items'][0]['current_bid']) * .13))
                         cleanedq = Cleanquery.sub("", SPost['items'][int(number)-1]['title'])
                         Fulllink = cccprice + str(cleanedq)
+                        print ("A camelcamelcamel page will open in 2 seconds.")
+                        time.sleep(2)
                         webbrowser.get('edge').open(Fulllink)
                     case 'E':
                         print ("Item number " + number + " is titled " + EPost['items'][int(number)-1]['title'])
                         print ("The current price of item number " + number + " is $" + EPost['items'][int(number)-1]['current_bid'])
+                        print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(EPost['items'][0]['current_bid']) * .0825 + float(EPost['items'][0]['current_bid']) + float(EPost['items'][0]['current_bid']) * .13))
                         cleanedq = Cleanquery.sub("", EPost['items'][int(number)-1]['title'])
                         Fulllink = cccprice + str(cleanedq)
+                        print ("A camelcamelcamel page will open in 2 seconds.")
+                        time.sleep(2)
                         webbrowser.get('edge').open(Fulllink)
                     case 'R':
                         print ("Item number " + number + " is titled " + RPost['items'][int(number)-1]['title'])
                         print ("The current price of item number " + number + " is $" + RPost['items'][int(number)-1]['current_bid'])
+                        print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(RPost['items'][0]['current_bid']) * .0825 + float(RPost['items'][0]['current_bid']) + float(RPost['items'][0]['current_bid']) * .13))
                         cleanedq = Cleanquery.sub("", RPost['items'][int(number)-1]['title'])
                         Fulllink = cccprice + str(cleanedq)
+                        print ("A camelcamelcamel page will open in 2 seconds.")
+                        time.sleep(2)
                         webbrowser.get('edge').open(Fulllink)
                     case 'C':
                         print ("Item number " + number + " is titled " + CPost['items'][int(number)-1]['title'])
                         print ("The current price of item number " + number + " is $" + CPost['items'][int(number)-1]['current_bid'])
+                        print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(CPost['items'][0]['current_bid']) * .0825 + float(CPost['items'][0]['current_bid']) + float(CPost['items'][0]['current_bid']) * .13))
                         cleanedq = Cleanquery.sub("", CPost['items'][int(number)-1]['title'])
                         Fulllink = cccprice + str(cleanedq)
+                        print ("A camelcamelcamel page will open in 2 seconds.")
+                        time.sleep(2)
                         webbrowser.get('edge').open(Fulllink)
                     case 'N':
                         print ("Item number " + number + " is titled " + NPost['items'][int(number)-1]['title'])
                         print ("The current price of item number " + number + " is $" + NPost['items'][int(number)-1]['current_bid'])
+                        print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(NPost['items'][0]['current_bid']) * .0825 + float(NPost['items'][0]['current_bid']) + float(NPost['items'][0]['current_bid']) * .13))
                         cleanedq = Cleanquery.sub("", NPost['items'][int(number)-1]['title'])
                         Fulllink = cccprice + str(cleanedq)
+                        print ("A camelcamelcamel page will open in 2 seconds.")
+                        time.sleep(2)
                         webbrowser.get('edge').open(Fulllink)
                     case 'G':
                         print ("Item number " + number + " is titled " + GPost['items'][int(number)-1]['title'])
                         print ("The current price of item number " + number + " is $" + GPost['items'][int(number)-1]['current_bid'])
+                        print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(GPost['items'][0]['current_bid']) * .0825 + float(GPost['items'][0]['current_bid']) + float(GPost['items'][0]['current_bid']) * .13))
                         cleanedq = Cleanquery.sub("", GPost['items'][int(number)-1]['title'])
                         Fulllink = cccprice + str(cleanedq)
+                        print ("A camelcamelcamel page will open in 2 seconds.")
+                        time.sleep(2)
                         webbrowser.get('edge').open(Fulllink)
+                    case 'ES':
+                        print ("Item number " + number + " is titled " + ESPost['items'][int(number)-1]['title'])
+                        print ("The current price of item number " + number + " is $" + ESPost['items'][int(number)-1]['current_bid'])
+                        print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(ESPost['items'][0]['current_bid']) * .0825 + float(ESPost['items'][0]['current_bid']) + float(ESPost['items'][0]['current_bid']) * .13))
+                        cleanedq = Cleanquery.sub("", ESPost['items'][int(number)-1]['title'])
+                        Fulllink = cccprice + str(cleanedq)
+                        print ("A camelcamelcamel page will open in 2 seconds.")
+                        time.sleep(2)
+                        webbrowser.get('edge').open(Fulllink)
+
+        except IndexError:
+            print ("The item number is invalid. Please type another number.")
         except:
             print("Invalid input. Please try again.")
 
-print ("The following locations are : Sacramento, Elk Grove, Rancho Cordova, Citrus Heights, Natomas, and Galt.")
 Redirectto = input("\nPlease type a location to go to or type in 'Exit' to exit: ")
 while Redirectto != "No":
     if (Redirectto == "Sacramento" or Redirectto == "sacramento" or Redirectto == 's' or Redirectto == 'S'):
-        print ("The first auction gallery in Sacramento is a " + (Sjson['auctions']['1']['title']))
-        print ("There are " + Sjson['auctions']['1']['item_count'] + " items in this gallery")
+        print ("The first auction gallery in Sacramento is a " + (Sjson['auctions']['2']['title']))
+        print ("There are " + Sjson['auctions']['2']['item_count'] + " items in this gallery")
         Itemcheck("S")
     elif (Redirectto == "Exit" or Redirectto == "exit"):
         print ("Exiting program")
@@ -167,6 +213,10 @@ while Redirectto != "No":
         print ("The first auction gallery in Galt is a " + (Gjson['auctions']['2']['title']))
         print ("There are " + Gjson['auctions']['2']['item_count'] + " items in this gallery.")
         Itemcheck("G")
+    elif (Redirectto == "East Sacramento" or Redirectto == "east sacramento" or Redirectto == 'es' or Redirectto == 'ES' or Redirectto == 'Es' or Redirectto == 'east' or Redirectto == 'East'):
+        print ("The first auction gallery in East Sacramento is a " + (ESjson['auctions']['2']['title']))
+        print ("There are " + ESjson['auctions']['2']['item_count'] + " items in this gallery.")
+        Itemcheck("ES")
     else:
         print("Keyword not valid or recognized. Please type again:")
     Redirectto = input("\nPlease type a location to go to or type in 'Exit' to exit: ")
