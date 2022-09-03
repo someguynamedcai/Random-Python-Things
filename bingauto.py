@@ -21,7 +21,8 @@ searchwords = ["amazon","2022","2021","google","weather","news","steam","faceboo
                "psn","xbox","coinbase","salesforce","glassdoor","epic","wikipedia","imdb","amazon prime","hulu",
                "peacock","disney plus","gmail","outlook","teams","protonmail","fidelity","vanguard","netflix","paramount",
                "vudu","fandango","rotten tomatoes","humble bundle","fanatical","indiegala","gamesplanet","dlgamer","gamersgate","gamebillet",
-               "crunchyroll","funimation","hbo","cnn","yahoo","apple tv","eshop","amazon luna","google stadia","game pass"]
+               "crunchyroll","funimation","hbo","cnn","yahoo","apple tv","eshop","amazon luna","google stadia","game pass",
+               "steamcharts","fortnite","apex legends", "local news","ziprecruiter","monster","careerbuilder","wheres waldo","spotify","pandora"]
 
 for x in range(35):
     randnum = random.randrange(len(searchwords))
@@ -29,7 +30,7 @@ for x in range(35):
     #Removes word so it doesn't repeat
     searchwords.pop(randnum)
     webbrowser.get('edge').open(newsearch)
-    time.sleep(1.7)
+    time.sleep(3)
     counter+=1
 
 input("Completed " + str(counter) + " searches.")
