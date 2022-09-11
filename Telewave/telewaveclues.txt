@@ -1,0 +1,22 @@
+80s,90s
+Illegal,Legal
+For kids,For adults
+Worst athlete of all time,Greatest athelete of all time
+Tired,Wired
+Unscented,Scented
+Fad,Classic
+Short lived,Long lived
+Bad person,Good person
+Not art,Art
+Nobody does it,Everybody does it
+Weak,Strong
+Easy to spell,Hard to spell
+Bad school,Good school
+Waste of time,Good use of time
+Better hot,Better cold
+Bad mouthfeel,Good mouthfeel
+Soft,Hard
+Unsexy color,Sexy color
+Local issue,Global issue
+Ugly word,Beautiful word
+Popular,Elitist
