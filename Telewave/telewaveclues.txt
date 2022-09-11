@@ -250,3 +250,4 @@ Expected,Unexpected
 Person you could beat up,Person who’d beat you up
 Unreasonable phobia,Reasonable phobia
 Underrated game,Overrated game
+Low skill,High skill
