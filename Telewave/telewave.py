@@ -8,7 +8,7 @@ def file_len(filename):
     return i + 1
 
 #Allows adding for more clues
-def Addclues():
+def Addclues(addlist):
     while (True):
         Addclue = input("Do you want to add more clues? ")
         if (Addclue == "No" or Addclue == "no" or Addclue == "n" or Addclue == "N"):
@@ -18,8 +18,8 @@ def Addclues():
             Newclue = input("Type the clues that you want to add to the list with a comma in between. \nExample: ClueA,ClueB: ")
             Final = input("Are you sure these are the clues you want to add? ")
             if (Final == "Yes" or Final == "Y" or Final == "y" or Final == "yes"):
-                addlist.write(Newclue)
-                print ("Added " + str(Newclue.replace(","," ")) + " to the clue list.")
+                addlist.write("\n" + Newclue)
+                print ("Added " + str(Newclue) + " to the clue list.")
             else:
                 print ("Resetting.")
         else:
@@ -39,7 +39,7 @@ def Chooseteams():
     return numteams
     
 #Playing the game
-def play(filename,randnum,correctnum):
+def play(filename,randnum,correctnum,currentteam):
     print ("Team " + str(currentteam+1) + " is up.")
     print ("Your clue is " + str(filename[randnum]))
     while (True):
@@ -81,34 +81,53 @@ def Calculate(guessnum,correctnum,team):
         print ("Team " + str(team+1) + " has gained 0 points.")
         return 0
 
+#Calculate and print out scoreboard
 def Score(teampoints,currentteam,points):
     teampoints[currentteam] = teampoints[currentteam] + points
     for i in range(len(teampoints)-1):
         print ("Team " + str(i+1) + ": " + str(teampoints[i]))
 
-#setting up game
-guessrange = random.randrange(0,100)
-addlist = open("telewaveclues.txt", "a")
-currentteam = 0
-cluelist = open("telewaveclues.txt","r")
-content = cluelist.readlines()
-maxclue = file_len("telewaveclues.txt")
-
-#Starting game up
-Addclues()
-numteams = Chooseteams()
-teampoints = [0 for i in range(numteams+1)]
-while (True):
-    try:
-        guessrange = random.randrange(0,100)
-        clue = random.randrange(maxclue)
-        Guess = play(content,clue,guessrange)
-        points = Calculate(Guess,guessrange,currentteam)
-        Score(teampoints,currentteam,points)
-        currentteam +=1
-        if (currentteam == numteams):
-            currentteam = 0
-    except KeyboardInterrupt:
-        print ("The game has ended.")
-        Score(teampoints,currentteam,0)
+#Determine how many points needed to win the game
+def End():
+    while (True):
+        try:
+            endscore = input("How many points to win: ")
+        except ValueError:
+                print ("Invalid input. Try again.")
         break
+    return endscore
+
+def main():
+    #setting up game
+    guessrange = random.randrange(0,100)
+    addlist = open("telewaveclues.txt", "a")
+    currentteam = 0
+    cluelist = open("telewaveclues.txt","r")
+    content = cluelist.readlines()
+    maxclue = file_len("telewaveclues.txt")
+
+    #Starting game 
+    Addclues(addlist)
+    numteams = Chooseteams()
+    end = End()
+    teampoints = [0 for i in range(numteams+1)]
+    while (True):
+        try:
+            guessrange = random.randrange(0,100)
+            clue = random.randrange(maxclue)
+            Guess = play(content,clue,guessrange,currentteam)
+            points = Calculate(Guess,guessrange,currentteam)
+            Score(teampoints,currentteam,points)
+            if (teampoints[currentteam] == int(end) or teampoints[currentteam] >= int(end)):
+                print ("Team " + str(currentteam+1) + " has won the game!")
+                break
+            currentteam +=1
+            if (currentteam == numteams):
+                currentteam = 0
+        except KeyboardInterrupt:
+            print ("The game has ended.")
+            Score(teampoints,currentteam,0)
+            end = input()
+            break
+    
+main()
