@@ -1,3 +1,9 @@
+numteams:
+2
+maxmulligan:
+3
+maxpoints:
+10
 Bad,Good
 Mildly addictive,Highly addictive
 Hot,Cold

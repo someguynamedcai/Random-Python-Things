@@ -7,63 +7,44 @@ def file_len(filename):
             pass
     return i + 1
 
-#Allows adding for more clues
-def Addclues(addlist):
-    while (True):
-        Addclue = input("Do you want to add more clues: ")
-        if (Addclue == "No" or Addclue == "no" or Addclue == "n" or Addclue == "N"):
-            addlist.close()
-            break;
-        elif (Addclue == "Yes" or Addclue == "yes" or Addclue == "y" or Addclue == "Y"):
-            Newclue = input("Type the clues that you want to add to the list with a comma in between. \nExample: ClueA,ClueB: ")
-            Final = input("Are you sure these are the clues you want to add: ")
-            if (Final == "Yes" or Final == "Y" or Final == "y" or Final == "yes"):
-                addlist.write("\n" + Newclue)
-                print ("Added " + str(Newclue) + " to the clue list.")
-            else:
-                print ("Resetting.")
-        else:
-            print ("Invalid input. Try again.")
-        
-#Choose how many teams are playing
-def Chooseteams():
-    while (True):
-        try:
-            numteams = int(input("How many teams do you want to have: "))
-            if (numteams <=1):
-                print ("You cannot have less than 2 teams. Please add more teams.")
-            else:
-                break;
-        except ValueError:
-            print ("Invalid input. Try again.")
-    return numteams
-    
 #Playing the game
-def Play(filename,randnum,correctnum,currentteam,maxclue):
+def Play(filename,randnum,correctnum,currentteam,maxclue,maxmulligan):
+    mull = 0
     print ("Team " + str(currentteam+1) + " is up.")
     print ("Your clue is " + str(filename[randnum]))
     while (True):
         mulligan = input("Do you want another clue: ")
-        if (mulligan == "Yes" or mulligan == "yes" or mulligan == "y" or mulligan == "Y"):
+        if maxmulligan-mull == 0:
+            print ("You have ran out of mulligans.")
             randnum = Mulligan(maxclue)
             print ("Your clue is " + str(filename[randnum]))
-        else:
             break
+        elif (mulligan == "Yes" or mulligan == "yes" or mulligan == "y" or mulligan == "Y"):
+            randnum = Mulligan(maxclue)
+            print ("Your clue is " + str(filename[randnum]))
+            print ("You have " + str(maxmulligan-mull) + " remaining")
+            mull+=1
+        elif (mulligan == "No" or mulligan == "no" or mulligan == "n" or mulligan == "N"):
+            break
+        else:
+            print("Invalid input. Try again.")
+    
     peek =  input("The correct number is " + str(correctnum))
     print ("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print ("Your clue is " + str(filename[randnum]))
     while (True):
         try:
-            print ("Your clue is " + str(filename[randnum]))
             Guess = int(input("Guess a number between 0-100: "))
+            break
         except ValueError:
             print ("Invalid input. Try again.")
-        break;
     print ("The correct number is " + str(correctnum))
+    mull = 0
     return Guess
 
 #Calculating another random number for clue
 def Mulligan(maxclue):
-    clue = random.randrange(maxclue)
+    clue = random.randrange(5,maxclue)
     return clue
            
 #Calculating score after guess
@@ -88,33 +69,27 @@ def Score(teampoints,currentteam,points):
         print ("Team " + str(i+1) + ": " + str(teampoints[i]))
 
 #Determine how many points needed to win the game
-def End():
-    while (True):
-        try:
-            endscore = input("How many points to win: ")
-        except ValueError:
-                print ("Invalid input. Try again.")
-        break
-    return endscore
 
 def main():
     #setting up game
     guessrange = random.randrange(0,100)
-    addlist = open("telewaveclues.txt", "a")
     currentteam = 0
     cluelist = open("telewaveclues.txt","r")
     content = cluelist.readlines()
-    maxclue = file_len("telewaveclues.txt")
+    numteams = int(content[1])
+    maxmulligan = int(content[3])
+    end = int(content[5])
+    maxclue = file_len("telewaveclues.txt")                     
     #Starting game 
-    Addclues(addlist)
-    numteams = Chooseteams()
-    end = End()
     teampoints = [0 for i in range(numteams+1)]
+    print ("There are " + str(numteams) + " teams.")
+    print ("You must get " + str(end) + " points to win.")
+    print ("There are " + str(maxmulligan) + " mulligans you have each round.")
     while (True):
         try:
             guessrange = random.randrange(0,100)
-            clue = random.randrange(maxclue)
-            guess = Play(content,clue,guessrange,currentteam,maxclue)
+            clue = random.randrange(2,maxclue)
+            guess = Play(content,clue,guessrange,currentteam,maxclue,maxmulligan)
             points = Calculate(guess,guessrange,currentteam)
             Score(teampoints,currentteam,points)
             if (teampoints[currentteam] == int(end) or teampoints[currentteam] >= int(end)):
