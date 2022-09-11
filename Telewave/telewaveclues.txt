@@ -20,3 +20,8 @@ Unsexy color,Sexy color
 Local issue,Global issue
 Ugly word,Beautiful word
 Popular,Elitist
+Unforgiveable,Forgiveable
+Bad habit,Good habit
+Underrated thing to do,Overrated thing to do
+Small talk,Heavy topic
+Mental activity,Physical activity
