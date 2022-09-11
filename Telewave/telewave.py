@@ -54,7 +54,7 @@ def Play(filename,randnum,correctnum,currentteam,maxclue):
     while (True):
         try:
             print ("Your clue is " + str(filename[randnum]))
-            Guess = int(input("What number would you like to guess: "))
+            Guess = int(input("Guess a number between 0-100: "))
         except ValueError:
             print ("Invalid input. Try again.")
         break;
