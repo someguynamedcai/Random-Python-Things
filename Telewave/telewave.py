@@ -55,14 +55,14 @@ def add_clues():
 #Choose how many teams are playing
 def set_teams():
     team_count = ''
-    while isinstance(team_count, int) == False:
+    while isinstance(team_count, int) == False or int(team_count) <= 1:
         try:
             team_count = int(input("How many teams do you want to have (e.g. 2, 5)? "))
             if (team_count <=1):
                 print ("You cannot have less than 2 teams. Please add more teams.")
         except ValueError:
             print ("Invalid input. Try again.")
-            continue
+            break
     team_names = {}
     for team in range(team_count):
         user_input = input(f"Enter a name for team {team} or leave blank to accept default '{DEFAULT_TEAM_NAMES[team]}':\n")
