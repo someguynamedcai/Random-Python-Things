@@ -72,9 +72,10 @@ def Sinfo():
             print ("An auction has recently closed. The next auction gallery in Sacramento is a " + str(Sjson['auctions'][str(int(Sauctions)+1)]['title']))
             print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Sjson['auctions'][str(int(Sauctions)+1)]['auction_id_slug'] + "\n")
             print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+        return Sfirst
     except (NameError, AttributeError):
         print ("There are no open auctions in Sacramento as of this moment.\n")
-
+        
 def Einfo():    
     try:
         for Eauctions in range(len(Ejson['auctions'])):
@@ -108,7 +109,7 @@ def Einfo():
             print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
     except (NameError, AttributeError):
         print ("There are no open auctions in Elk Grove as of this moment.\n")
-        
+    return Efirst
 def Rinfo():
     try:
         for Rauctions in Rjson['auctions'].keys():   
@@ -148,7 +149,7 @@ def Rinfo():
             print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
     except (NameError, AttributeError):
         print ("There are no open auctions in Rancho Cordova as of this moment.\n")
-        
+    return Rfirst    
 def Cinfo():
     try: 
         for Cauctions in Cjson['auctions'].keys():
@@ -182,7 +183,7 @@ def Cinfo():
             print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
     except (NameError, AttributeError):
         print ("There are no open auctions in Citrus Heights as of this moment.\n")
-        
+    return Cfirst    
 def Ninfo():
     try:
         for Nauctions in Njson['auctions'].keys():    
@@ -250,7 +251,7 @@ def Ginfo():
             print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
     except (NameError, AttributeError):
         print ("There are no open auctions in Galt as of this moment.\n")
-        
+    return Gfirst   
 def ESinfo():
     try:    
         for ESauctions in ESjson['auctions'].keys():
@@ -286,7 +287,7 @@ def ESinfo():
 
     except (NameError,AttributeError):
         print ("There are no open auctions in East Sacramento as of this moment.\n")
-        
+    return ESfirst    
 #Finding out where edge is located on computer to open web page
 edge_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
@@ -296,8 +297,25 @@ webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 #webbrowser.register('firefox', None, webbrowser.BackgroundBrowser(firefox_path))
 
 Startlink = "https://www.bidrl.com/auction/"
-#Input to open web page to auction gallery
-def Search():
+#Input to open web page to auction gallery           
+def main():
+    print ("Today is " + str(currenttime.date()) + ".\nThe time is " + str(currenttime.strftime("%H:%M:%S")) + ".\n")
+    print ("There are " + str(Sjson['total']) + " auction galleries available at Sacramento.")
+    print ("There are " + str(Ejson['total']) + " auction galleries available at Elk Grove.")
+    print ("There are " + str(Rjson['total']) + " auction galleries available at Rancho Cordova.")
+    print ("There are " + str(Cjson['total']) + " auction galleries available at Citrus Heights.")
+    print ("There are " + str(Njson['total']) + " auction galleries available at Natomas.")
+    print ("There are " + str(Gjson['total']) + " auction galleries available at Galt.")
+    print ("There are " + str(ESjson['total']) + " auction galleries available at East Sacramento.\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+    Sfirst = Sinfo()
+    Efirst = Einfo()
+    Rfirst = Rinfo()
+    Cfirst = Cinfo()
+    Nfirst = Ninfo()
+    Gfirst = Ginfo()
+    ESfirst = ESinfo()
+    
     Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
     while Redirectto != "No":
         try:
@@ -342,25 +360,7 @@ def Search():
                 print("Keyword not valid or recognized. Please type again:")
             Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
         except KeyError:
-            print ("There has been an error in opening up the gallery. It will be fixed shortly.")
-            
-def main():
-    print ("Today is " + str(currenttime.date()) + ".\nThe time is " + str(currenttime.strftime("%H:%M:%S")) + ".\n")
-    print ("There are " + str(Sjson['total']) + " auction galleries available at Sacramento.")
-    print ("There are " + str(Ejson['total']) + " auction galleries available at Elk Grove.")
-    print ("There are " + str(Rjson['total']) + " auction galleries available at Rancho Cordova.")
-    print ("There are " + str(Cjson['total']) + " auction galleries available at Citrus Heights.")
-    print ("There are " + str(Njson['total']) + " auction galleries available at Natomas.")
-    print ("There are " + str(Gjson['total']) + " auction galleries available at Galt.")
-    print ("There are " + str(ESjson['total']) + " auction galleries available at East Sacramento.\n")
-    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-    Sinfo()
-    Einfo()
-    Rinfo()
-    Cinfo()
-    Ninfo()
-    Ginfo()
-    ESinfo()
-    Search()
+            print ("There has been an error in opening up the gallery.")
+
 main()
 
