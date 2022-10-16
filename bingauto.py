@@ -35,6 +35,7 @@ for x in range(35):
     counter+=1
     print (str(x+1) + " searches have been completed.")
 
+os.system('cls')
 input("Completed " + str(counter) + " searches.")
 
 
