@@ -1,6 +1,7 @@
 import webbrowser
 import random
 import time
+import os
 
 counter = 0
 
@@ -32,6 +33,7 @@ for x in range(35):
     webbrowser.get('edge').open(newsearch)
     time.sleep(3)
     counter+=1
+    print (str(x+1) + " searches have been completed.")
 
 input("Completed " + str(counter) + " searches.")
 
