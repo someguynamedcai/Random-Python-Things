@@ -6,11 +6,8 @@ import datetime
 import time
 import webbrowser
 
-#Current date and time 
-currenttime = datetime.datetime.now()
-currentunixtime = time.time()
-
 #read all data
+#Json page which has all auction item information
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
 Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
 Sjson = Spage.json()
@@ -27,8 +24,10 @@ Gpage = requests.get("https://www.bidrl.com/api/landingPage/galt-7")
 Gjson = Gpage.json()
 ESpage = requests.get("https://www.bidrl.com/api/landingPage/east-sacramento-45")
 ESjson = ESpage.json()
+ROpage = requests.get("https://www.bidrl.com/api/landingPage/roseville")
+ROjson = ROpage.json()
 
-#Json page which has all auction item information
+#how to find gallery data
 getitems = "https://www.bidrl.com/api/getitems"
 
 def Oneitem(location,ID):
@@ -38,16 +37,17 @@ def Oneitem(location,ID):
         Rtimeleft = RItemtime - currentunixtime
         print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))        
         print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" + ID)
-        print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-        
-def Sinfo():
+        print ("------------------------------------------------------------------------------------------------------------------------------"  )
+
+#Printing info on locations    
+def Sinfo(currenttime,currentunixtime):
     try:
         for Sauctions in Sjson['auctions'].keys():
             if Sjson['auctions'][Sauctions]['status'] == "open":
                 S_Id = Sjson['auctions'][Sauctions]['id']
                 Sfirst = Sauctions
                 break
-            
+        
         SItems = {"auction_id": S_Id,}
         SPost = requests.post(getitems, data = SItems).json()
         SItem1 = SPost['items'][0]['title']
@@ -57,26 +57,22 @@ def Sinfo():
 
         if Stimes.find("First Item Closes") != -1:
             print ("The first auction gallery in Sacramento is a " + (Sjson['auctions'][str(Sauctions)]['title']))
-            print ("The first item in this gallery is titled " + SItem1 + ".")
-            print ("The first item's current bid is at $" + SPost['items'][0]['current_bid'] + ".")
-            print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(SPost['items'][0]['current_bid']) * .082525 + float(SPost['items'][0]['current_bid']) + float(SPost['items'][0]['current_bid']) * .13))
             if (Stimeleft < 0):
                 print ("The current gallery is closing items right now!")
             else:
                 print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Stimeleft)))
-            print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Sjson['auctions'][str(Sauctions)]['auction_id_slug']  + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-
+                print(Stimes)
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
         else:
             Stimes = Sjson['auctions'][str(int(Sauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in Sacramento is a " + str(Sjson['auctions'][str(int(Sauctions)+1)]['title']))
-            print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Sjson['auctions'][str(int(Sauctions)+1)]['auction_id_slug'] + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+            print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Sjson['auctions'][str(int(Sauctions)+1)]['auction_id_slug'] )
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
         return Sfirst
     except (NameError, AttributeError):
         print ("There are no open auctions in Sacramento as of this moment.\n")
         
-def Einfo():    
+def Einfo(currenttime,currentunixtime):    
     try:
         for Eauctions in range(len(Ejson['auctions'])):
             if (Ejson['auctions'][(Eauctions)]['status'] == "open"):
@@ -90,27 +86,24 @@ def Einfo():
         Etimes = Ejson['auctions'][(Eauctions)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
         EItemtime = float(EPost['items'][0]['ends']) + 7200
         Etimeleft = EItemtime - currentunixtime
+        
         if Etimes.find("First Item Closes") != -1:
             print ("The first auction gallery in Elk Grove is a " + (Ejson['auctions'][(Eauctions)]['title']))
-            print ("The first item in this gallery is titled " + EItem1 + ".")
-            print ("The first item's current bid is at $" + EPost['items'][0]['current_bid'] + ".")
-            print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(EPost['items'][0]['current_bid']) * .0825 + float(EPost['items'][0]['current_bid']) + float(EPost['items'][0]['current_bid']) * .13))
             if (Etimeleft < 0):
                 print ("The current gallery is closing items right now!")
             else:
                 print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Etimeleft)))
-            print (Etimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Ejson['auctions'][(Eauctions)]['auction_id_slug']  + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-
+            print(Etimes)
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
         else:
             Etimes = Ejson['auctions'][(int(Eauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in Elk Grove is a " + (Ejson['auctions'][(int(Eauctions)+1)]['title']))
-            print (Etimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Ejson['auctions'][(int(Eauctions)+1)]['auction_id_slug']  + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
         print ("There are no open auctions in Elk Grove as of this moment.\n")
     return Efirst
-def Rinfo():
+
+def Rinfo(currenttime,currentunixtime):
     try:
         for Rauctions in Rjson['auctions'].keys():   
             if Rjson['auctions'][Rauctions]['status'] == "open":
@@ -125,13 +118,9 @@ def Rinfo():
         RItemtime = float(RPost['items'][0]['ends']) + 7200
         Rtimeleft = RItemtime - currentunixtime
         Rauctionlink = Rjson['auctions'][Rauctions]['id'] + "/item/" + Rjson['auctions'][Rauctions]['item_id_slug']
+        
         if Rtimes.find("First Item Closes") != -1 or Rtimes.find("Closing Time") != -1:
-
             print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions'][str(Rauctions)]['title']))
-            print ("The first item in this gallery is titled " + RItem1 + ".")
-            print ("The first item's current bid is at $" + RPost['items'][0]['current_bid'] + ".")
-            print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(RPost['items'][0]['current_bid']) * .0825 + float(RPost['items'][0]['current_bid']) + float(RPost['items'][0]['current_bid']) * .13))
-
             if (Rjson['auctions'][Rauctions]['item_count'] == "1"):
                 Oneitem("R",Rjson['auctions'][Rauctions]['item_id'])
             else:
@@ -139,18 +128,17 @@ def Rinfo():
                     print ("The current gallery is closing items right now!")
                 else:
                     print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
-                print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rjson['auctions'][str(Rauctions)]['auction_id_slug'] + "\n")
-                print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-
+                    print(Rtimes)
+                print ("------------------------------------------------------------------------------------------------------------------------------"  )
         else:
             Rtimes = Rjson['auctions'][str(int(Rauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in Rancho Cordova is a " + (Rjson['auctions'][str(int(Rauctions)+1)]['title']))
-            print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Rjson['auctions'][str(int(Rauctions)+1)]['auction_id_slug'] + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
         print ("There are no open auctions in Rancho Cordova as of this moment.\n")
-    return Rfirst    
-def Cinfo():
+    return Rfirst
+
+def Cinfo(currenttime,currentunixtime):
     try: 
         for Cauctions in Cjson['auctions'].keys():
             if Cjson['auctions'][Cauctions]['status'] == "open":
@@ -164,27 +152,24 @@ def Cinfo():
         Ctimes = Cjson['auctions'][Cauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
         CItemtime = float(CPost['items'][0]['ends']) + 7200
         Ctimeleft = CItemtime - currentunixtime
+        
         if Ctimes.find("First Item Closes") != -1:
             print ("The first auction gallery in Citrus Heights is a " + (Cjson['auctions'][str(Cauctions)]['title']))
-            print ("The first item in this gallery is titled " + CItem1 + ".")
-            print ("The first item's current bid is at $" + CPost['items'][0]['current_bid'] + ".")
-            print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(CPost['items'][0]['current_bid']) * .0825 + float(CPost['items'][0]['current_bid']) + float(CPost['items'][0]['current_bid']) * .13))
             if (Ctimeleft < 0):
                 print ("The current gallery is closing items right now!")
             else:
                 print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ctimeleft)))
-            print (Ctimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Cjson['auctions'][str(Cauctions)]['auction_id_slug']  + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-
+                print(Ctimes)
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
         else:
             Ctimes = Cjson['auctions'][str(int(Cauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in Citrus Heights is a " + (Cjson['auctions'][str(int(Cauctions)+1)]['title']))
-            print (Ctimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Cjson['auctions'][str(int(Cauctions)+1)]['auction_id_slug'] + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
         print ("There are no open auctions in Citrus Heights as of this moment.\n")
-    return Cfirst    
-def Ninfo():
+    return Cfirst
+
+def Ninfo(currenttime,currentunixtime):
     try:
         for Nauctions in Njson['auctions'].keys():    
             if Njson['auctions'][Nauctions]['status'] == "open":
@@ -198,27 +183,24 @@ def Ninfo():
         Ntimes = Njson['auctions'][Nauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
         NItemtime = float(NPost['items'][0]['ends']) + 7200
         Ntimeleft = NItemtime - currentunixtime
+        
         if Ntimes.find("First Item Closes") != -1:
             print ("The first auction gallery in Natomas is a " + (Njson['auctions'][str(Nauctions)]['title']))
-            print ("The first item in this gallery is titled " + NItem1 + ".")
-            print ("The first item's current bid is at $" + NPost['items'][0]['current_bid'] + ".")
-            print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(NPost['items'][0]['current_bid']) * .0825 + float(NPost['items'][0]['current_bid']) + float(NPost['items'][0]['current_bid']) * .13)) 
             if (Ntimeleft < 0):
                 print ("The current gallery is closing items right now!")
             else :    
                 print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ntimeleft)))
-            print (Ntimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Njson['auctions'][str(Nauctions)]['auction_id_slug']  + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-
+                print(Ntimes)
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
         else:
             Ntimes = Njson['auctions'][str(int(Nauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in Natomas is a " + str(Njson['auctions'][str(int(Sauctions)+1)]['title']))
-            print (Ntimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Njson['auctions'][str(int(Sauctions)+1)]['auction_id_slug'] + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
         print ("There are no open auctions in Natomas as of this moment.\n")
+    return Nfirst
         
-def Ginfo():
+def Ginfo(currenttime,currentunixtime):
     try:
         for Gauctions in Gjson['auctions'].keys():
             if Gjson['auctions'][Gauctions]['status'] == "open":
@@ -232,27 +214,24 @@ def Ginfo():
         Gtimes = Gjson['auctions'][Gauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
         GItemtime = float(GPost['items'][0]['ends']) + 7200
         Gtimeleft = GItemtime - currentunixtime
+        
         if Gtimes.find("Closing Time") != -1 or Gtimes.find("First Item Closes") != -1:
             print ("The first auction gallery in Galt is a " + (Gjson['auctions'][str(Gauctions)]['title']))
-            print ("The first item in this gallery is titled " + GItem1 + ".")
-            print ("The first item's current bid is at $" + GPost['items'][0]['current_bid'] + ".")
-            print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(GPost['items'][0]['current_bid']) * .0825 + float(GPost['items'][0]['current_bid']) + float(GPost['items'][0]['current_bid']) * .13))
             if (Gtimeleft < 0):
                 print ("The current gallery is closing items right now!")
             else :    
                 print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Gtimeleft)))
-            print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions'][Gauctions]['auction_id_slug']  + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-
+                print(Gtimes)
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
         else:
             Gtimes = Gjson['auctions'][str(int(Gauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in Galt is a " + (Gjson['auctions'][str(int(Gauctions)+1)]['title']))
-            print (Gtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Gjson['auctions'][str(int(Gauctions)+1)]['auction_id_slug'] + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-    except (NameError, AttributeError):
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
+    except (AttributeError,UnboundLocalError):
         print ("There are no open auctions in Galt as of this moment.\n")
-    return Gfirst   
-def ESinfo():
+    return Gfirst
+
+def ESinfo(currenttime,currentunixtime):
     try:    
         for ESauctions in ESjson['auctions'].keys():
             if (ESjson['auctions'][ESauctions]['status'] == "open"):
@@ -269,36 +248,68 @@ def ESinfo():
 
         if EStimes.find("First Item Closes") != -1:
             print ("The first auction gallery in East Sacramento is a " + (ESjson['auctions'][str(ESauctions)]['title']))
-            print ("The first item in this gallery is titled " + ESItem1 + ".")
-            print ("The first item's current bid is at $" + ESPost['items'][1]['current_bid'] + ".")
-            print ("The total price calculated with the 8.25% tax and 13% buyer's premium is $" + str(float(ESPost['items'][0]['current_bid']) * .082525 + float(ESPost['items'][0]['current_bid']) + float(ESPost['items'][0]['current_bid']) * .13))
             if (EStimeleft < 0):
                 print ("The current gallery is closing items right now!")
             else:
                 print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = EStimeleft)))
-            print (EStimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  ESjson['auctions'][str(ESauctions)]['auction_id_slug']  + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-
+                print(EStimes)
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
         else:
             EStimes = ESjson['auctions'][str(int(ESauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in East Sacramento is a " + (ESjson['auctions'][str(int(ESauctions)+1)]['title']))
-            print (EStimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  ESjson['auctions'][str(int(ESauctions)+1)]['auction_id_slug'] + "\n")
-            print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-
-    except (NameError,AttributeError):
+            print ("------------------------------------------------------------------------------------------------------------------------------")
+        return ESfirst  
+    except (AttributeError,UnboundLocalError):
         print ("There are no open auctions in East Sacramento as of this moment.\n")
-    return ESfirst    
+
+def ROinfo(currenttime,currentunixtime):
+    try:
+        for ROauctions in range(len(ROjson['auctions'])):
+            if ROjson['auctions'][ROauctions]['status'] == "open":
+                RO_Id = ROjson['auctions'][ROauctions]['id']
+                ROfirst = ROauctions
+                break
+            
+        ROItems = {"auction_id": RO_Id,}
+        ROPost = requests.post(getitems, data = ROItems).json()
+        ROItem1 = ROPost['items'][0]['title']
+        ROtimes = ROjson['auctions'][(ROauctions)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+        ROItemtime = float(ROPost['items'][0]['ends']) + 7200
+        ROtimeleft = ROItemtime - currentunixtime
+        ROauctionlink = ROjson['auctions'][ROauctions]['id'] + "/item/" + ROjson['auctions'][ROauctions]['item_id_slug']
+        
+        if ROtimes.find("First Item Closes") != -1 or ROtimes.find("Closing Time") != -1:
+            print ("The first auction gallery in Roseville is a " + (ROjson['auctions'][(ROauctions)]['title']))
+            if (ROjson['auctions'][ROauctions]['item_count'] == "1"):
+                Oneitem("R",ROjson['auctions'][ROauctions]['item_id'])
+            else:
+                if (ROtimeleft < 0):
+                    print ("The current gallery is closing items right now!")
+                else:
+                    print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = ROtimeleft)))
+                    print(ROtimes)
+                print ("------------------------------------------------------------------------------------------------------------------------------"  )
+        else:
+            ROtimes = ROjson['auctions'][(int(ROauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+            print ("An auction has recently closed. The next auction gallery in Roseville is a " + (ROjson['auctions'][(int(ROauctions)+1)]['title']))
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
+        return ROfirst
+    except (NameError,AttributeError,UnboundLocalError):
+        print ("There are no open auctions in Roseville as of this moment.\n")
+
 #Finding out where edge is located on computer to open web page
 edge_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 
-#Cannot get firefox to open up. Using edge to open web browser as of 6/5/2022
 #firefox_path = "C:\Program Files\Mozilla Firefox\firefox.exe"
 #webbrowser.register('firefox', None, webbrowser.BackgroundBrowser(firefox_path))
 
 Startlink = "https://www.bidrl.com/auction/"
-#Input to open web page to auction gallery           
+
 def main():
+    currenttime = datetime.datetime.now()
+    currentunixtime = time.time()
+    currenttime,currentunixtime
     print ("Today is " + str(currenttime.date()) + ".\nThe time is " + str(currenttime.strftime("%H:%M:%S")) + ".\n")
     print ("There are " + str(Sjson['total']) + " auction galleries available at Sacramento.")
     print ("There are " + str(Ejson['total']) + " auction galleries available at Elk Grove.")
@@ -306,16 +317,19 @@ def main():
     print ("There are " + str(Cjson['total']) + " auction galleries available at Citrus Heights.")
     print ("There are " + str(Njson['total']) + " auction galleries available at Natomas.")
     print ("There are " + str(Gjson['total']) + " auction galleries available at Galt.")
-    print ("There are " + str(ESjson['total']) + " auction galleries available at East Sacramento.\n")
-    print ("------------------------------------------------------------------------------------------------------------------------------"  + "\n")
-    Sfirst = Sinfo()
-    Efirst = Einfo()
-    Rfirst = Rinfo()
-    Cfirst = Cinfo()
-    Nfirst = Ninfo()
-    Gfirst = Ginfo()
-    ESfirst = ESinfo()
-    
+    print ("There are " + str(ESjson['total']) + " auction galleries available at East Sacramento.")
+    print ("There are " + str(ROjson['total']) + " auction galleries available at Roseville.\n")
+    print ("------------------------------------------------------------------------------------------------------------------------------")
+    Sfirst = Sinfo(currenttime,currentunixtime)
+    Efirst = Einfo(currenttime,currentunixtime)
+    Rfirst = Rinfo(currenttime,currentunixtime)
+    Cfirst = Cinfo(currenttime,currentunixtime)
+    Nfirst = Ninfo(currenttime,currentunixtime)
+    Gfirst = Ginfo(currenttime,currentunixtime)
+    ESfirst = ESinfo(currenttime,currentunixtime)
+    ROfirst = ROinfo(currenttime,currentunixtime)
+
+#Input to open web page to auction gallery            
     Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
     while Redirectto != "No":
         try:
@@ -353,14 +367,21 @@ def main():
                 except TypeError:
                     Fulllink = "https://www.bidrl.com/affiliate/east-sacramento-45/"
                 webbrowser.get('edge').open(Fulllink)
+            elif (Redirectto == "Roseville" or Redirectto == "roseville" or Redirectto == 'ro' or Redirectto == 'RO' or Redirectto == 'Ro' or Redirectto == 'rose' or Redirectto == 'Rose'):
+                print ("Opening up the most recent Roseville gallery.\n")
+                try:
+                    Fulllink = Startlink + ROjson['auctions'][ROfirst]['auction_id_slug']
+                except TypeError:
+                    Fulllink = "https://www.bidrl.com/affiliate/east-sacramento-45/"
+                webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "refresh" or Redirectto == "Refresh" or Redirectto == "update" or Redirectto == "Update"):
                 print ("Updating information. Please wait.")
-                Refresh()
+                main()
             else:
                 print("Keyword not valid or recognized. Please type again:")
             Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
         except KeyError:
             print ("There has been an error in opening up the gallery.")
-
+            Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
 main()
 
