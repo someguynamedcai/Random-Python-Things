@@ -6,8 +6,10 @@ import datetime
 import time
 import webbrowser
 
+#Current date and time 
+
+
 #read all data
-#Json page which has all auction item information
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
 Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
 Sjson = Spage.json()
@@ -27,7 +29,7 @@ ESjson = ESpage.json()
 ROpage = requests.get("https://www.bidrl.com/api/landingPage/roseville")
 ROjson = ROpage.json()
 
-#how to find gallery data
+#Json page which has all auction item information
 getitems = "https://www.bidrl.com/api/getitems"
 
 def Oneitem(location,ID):
@@ -309,7 +311,6 @@ Startlink = "https://www.bidrl.com/auction/"
 def main():
     currenttime = datetime.datetime.now()
     currentunixtime = time.time()
-    currenttime,currentunixtime
     print ("Today is " + str(currenttime.date()) + ".\nThe time is " + str(currenttime.strftime("%H:%M:%S")) + ".\n")
     print ("There are " + str(Sjson['total']) + " auction galleries available at Sacramento.")
     print ("There are " + str(Ejson['total']) + " auction galleries available at Elk Grove.")
