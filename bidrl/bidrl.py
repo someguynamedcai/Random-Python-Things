@@ -6,9 +6,6 @@ import datetime
 import time
 import webbrowser
 
-#Current date and time 
-
-
 #read all data
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
 Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
@@ -32,13 +29,15 @@ ROjson = ROpage.json()
 #Json page which has all auction item information
 getitems = "https://www.bidrl.com/api/getitems"
 
-def Oneitem(location,ID):
+def Oneitem(location,ID,number):
     if (location == "R"):
+        currentunixtime = time.time()
         RPost = requests.post("https://www.bidrl.com/api/ItemData", data = {"item_id": ID,}).json()
         RItemtime = float(RPost['end_time']) + 7200
         Rtimeleft = RItemtime - currentunixtime
+        Rtimes = Rjson['auctions'][str(number)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
         print ("This item will close in " + str(datetime.timedelta(seconds = Rtimeleft)))        
-        print (Rtimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" + ID)
+        print (Rtimes)
         print ("------------------------------------------------------------------------------------------------------------------------------"  )
 
 #Printing info on locations    
@@ -68,7 +67,7 @@ def Sinfo(currenttime,currentunixtime):
         else:
             Stimes = Sjson['auctions'][str(int(Sauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in Sacramento is a " + str(Sjson['auctions'][str(int(Sauctions)+1)]['title']))
-            print (Stimes + "\nThe link to the auction is \nhttps://www.bidrl.com/auction/" +  Sjson['auctions'][str(int(Sauctions)+1)]['auction_id_slug'] )
+            print (Stimes)
             print ("------------------------------------------------------------------------------------------------------------------------------"  )
         return Sfirst
     except (NameError, AttributeError):
@@ -124,7 +123,7 @@ def Rinfo(currenttime,currentunixtime):
         if Rtimes.find("First Item Closes") != -1 or Rtimes.find("Closing Time") != -1:
             print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions'][str(Rauctions)]['title']))
             if (Rjson['auctions'][Rauctions]['item_count'] == "1"):
-                Oneitem("R",Rjson['auctions'][Rauctions]['item_id'])
+                Oneitem("R",Rjson['auctions'][Rauctions]['item_id'],Rauctions)
             else:
                 if (Rtimeleft < 0):
                     print ("The current gallery is closing items right now!")
@@ -136,7 +135,7 @@ def Rinfo(currenttime,currentunixtime):
             Rtimes = Rjson['auctions'][str(int(Rauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in Rancho Cordova is a " + (Rjson['auctions'][str(int(Rauctions)+1)]['title']))
             print ("------------------------------------------------------------------------------------------------------------------------------"  )
-    except (NameError, AttributeError):
+    except (AttributeError):
         print ("There are no open auctions in Rancho Cordova as of this moment.\n")
     return Rfirst
 
@@ -266,7 +265,7 @@ def ESinfo(currenttime,currentunixtime):
 
 def ROinfo(currenttime,currentunixtime):
     try:
-        for ROauctions in range(len(ROjson['auctions'])):
+        for ROauctions in ROjson['auctions'].keys():
             if ROjson['auctions'][ROauctions]['status'] == "open":
                 RO_Id = ROjson['auctions'][ROauctions]['id']
                 ROfirst = ROauctions
@@ -309,6 +308,7 @@ webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 Startlink = "https://www.bidrl.com/auction/"
 
 def main():
+    #Current date and time 
     currenttime = datetime.datetime.now()
     currentunixtime = time.time()
     print ("Today is " + str(currenttime.date()) + ".\nThe time is " + str(currenttime.strftime("%H:%M:%S")) + ".\n")
@@ -338,7 +338,7 @@ def main():
                 print ("Opening up the most recent Sacramento gallery.\n")
                 Fulllink = Startlink + Sjson['auctions'][Sfirst]['auction_id_slug']
                 webbrowser.get('edge').open(Fulllink)
-            elif (Redirectto == "Exit" or Redirectto == "exit"):
+            elif (Redirectto == "Exit" or Redirectto == "exit" or Redirectto == "Close" or Redirectto == "close" or Redirectto == "quit" or Redirectto == "Quit"):
                 print ("Exiting program")
                 break
             elif (Redirectto == "Elk Grove" or Redirectto == "elk grove" or Redirectto == "elkgrove" or Redirectto == "Elkgrove" or Redirectto == 'e' or Redirectto == 'E'):
@@ -351,7 +351,7 @@ def main():
                 webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "Citrus Heights" or Redirectto == "citrus heights" or Redirectto == "citrusheights" or Redirectto == "Citrusheights" or Redirectto == 'C' or Redirectto == 'c'):
                 print ("Opening up the most recent Citrus Heights gallery.\n")
-                Fulllink = Startlink + Cjson['auctions'][Cfirsts]['auction_id_slug']
+                Fulllink = Startlink + Cjson['auctions'][Cfirst]['auction_id_slug']
                 webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "Natomas" or Redirectto == "natomas" or Redirectto == 'n' or Redirectto == 'N'):
                 print ("Opening up the most recent Natomas gallery.\n")
@@ -375,7 +375,7 @@ def main():
                 except TypeError:
                     Fulllink = "https://www.bidrl.com/affiliate/east-sacramento-45/"
                 webbrowser.get('edge').open(Fulllink)
-            elif (Redirectto == "refresh" or Redirectto == "Refresh" or Redirectto == "update" or Redirectto == "Update"):
+            elif (Redirectto == "refresh" or Redirectto == "Refresh" or Redirectto == "update" or Redirectto == "Update" or Redirectto == "restart" or Redirectto == "Restart"):
                 print ("Updating information. Please wait.")
                 main()
             else:
