@@ -73,10 +73,10 @@ def Sinfo(currenttime,currentunixtime):
     except (NameError, AttributeError):
         print ("There are no open auctions in Sacramento as of this moment.\n")
         
-def Einfo(currenttime,currentunixtime):    
+def Einfo(currenttime,currentunixtime):
     try:
         for Eauctions in range(len(Ejson['auctions'])):
-            if (Ejson['auctions'][(Eauctions)]['status'] == "open"):
+            if (Ejson['auctions'][(Eauctions)]['status'] == "open" and Ejson['auctions'][(Eauctions)]['item_id'] != "null"):
                 E_Id = Ejson['auctions'][(Eauctions)]['id']
                 Efirst = Eauctions
                 break
