@@ -1,14 +1,14 @@
 #Web scraping the site bidrl 
-
+import os
 import json
 import requests
 import datetime
 import time
 import webbrowser
-
+print ("Information is being obtained from BidRl. Please wait for a moment.")
 #read all data
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
-Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
+Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento")
 Sjson = Spage.json()
 #Elk Grove Json page is not a dictionary but a list for some reason
 Epage = requests.get("https://www.bidrl.com/api/landingPage/elk-grove-8")
@@ -25,7 +25,7 @@ ESpage = requests.get("https://www.bidrl.com/api/landingPage/east-sacramento-45"
 ESjson = ESpage.json()
 ROpage = requests.get("https://www.bidrl.com/api/landingPage/roseville")
 ROjson = ROpage.json()
-
+os.system("cls")
 #Json page which has all auction item information
 getitems = "https://www.bidrl.com/api/getitems"
 
@@ -308,7 +308,7 @@ webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 Startlink = "https://www.bidrl.com/auction/"
 
 def main():
-    #Current date and time 
+    #Current date and time
     currenttime = datetime.datetime.now()
     currentunixtime = time.time()
     print ("Today is " + str(currenttime.date()) + ".\nThe time is " + str(currenttime.strftime("%H:%M:%S")) + ".\n")
@@ -384,5 +384,6 @@ def main():
         except KeyError:
             print ("There has been an error in opening up the gallery.")
             Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
+
 main()
 
