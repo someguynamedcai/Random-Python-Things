@@ -8,6 +8,7 @@ import webbrowser
 print ("Information is being obtained from BidRl. Please wait for a moment.")
 #read all data
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
+#Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
 Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento")
 Sjson = Spage.json()
 #Elk Grove Json page is not a dictionary but a list for some reason
@@ -234,7 +235,7 @@ def Ginfo(currenttime,currentunixtime):
 
 def ESinfo(currenttime,currentunixtime):
     try:    
-        for ESauctions in ESjson['auctions'].keys():
+        for ESauctions in range(len(ESjson['auctions'])):
             if (ESjson['auctions'][ESauctions]['status'] == "open"):
                 ES_Id = ESjson['auctions'][ESauctions]['id']
                 ESfirst = ESauctions
@@ -248,7 +249,7 @@ def ESinfo(currenttime,currentunixtime):
         EStimeleft = ESItemtime - currentunixtime
 
         if EStimes.find("First Item Closes") != -1:
-            print ("The first auction gallery in East Sacramento is a " + (ESjson['auctions'][str(ESauctions)]['title']))
+            print ("The first auction gallery in East Sacramento is a " + (ESjson['auctions'][(ESauctions)]['title']))
             if (EStimeleft < 0):
                 print ("The current gallery is closing items right now!")
             else:
@@ -265,7 +266,7 @@ def ESinfo(currenttime,currentunixtime):
 
 def ROinfo(currenttime,currentunixtime):
     try:
-        for ROauctions in ROjson['auctions'].keys():
+        for ROauctions in range(len(ROjson['auctions'])):
             if ROjson['auctions'][ROauctions]['status'] == "open":
                 RO_Id = ROjson['auctions'][ROauctions]['id']
                 ROfirst = ROauctions
@@ -299,6 +300,7 @@ def ROinfo(currenttime,currentunixtime):
         print ("There are no open auctions in Roseville as of this moment.\n")
 
 #Finding out where edge is located on computer to open web page
+#Default path to Edge, may not work for everyone
 edge_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 webbrowser.register('edge', None, webbrowser.BackgroundBrowser(edge_path))
 
