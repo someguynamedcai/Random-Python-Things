@@ -9,8 +9,8 @@ print ("Information is being obtained from BidRl. Please wait for a moment.")
 #read all data
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
-Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento")
-Sjson = Spage.json()
+#Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento")
+#Sjson = Spage.json()
 #Elk Grove Json page is not a dictionary but a list for some reason
 Epage = requests.get("https://www.bidrl.com/api/landingPage/elk-grove-8")
 Ejson = Epage.json()
@@ -45,7 +45,7 @@ def Oneitem(location,ID,number):
         print ("------------------------------------------------------------------------------------------------------------------------------"  )
 
 #Printing info on locations    
-def Sinfo(currenttime,currentunixtime):
+'''def Sinfo(currenttime,currentunixtime):
     try:
         for Sauctions in Sjson['auctions'].keys():
             if Sjson['auctions'][Sauctions]['status'] == "open":
@@ -76,7 +76,7 @@ def Sinfo(currenttime,currentunixtime):
         return Sfirst
     except (NameError, AttributeError):
         print ("There are no open auctions in Sacramento as of this moment.\n")
-        
+'''    
 def Einfo(currenttime,currentunixtime):
     try:
         for Eauctions in range(len(Ejson['auctions'])):
@@ -348,7 +348,7 @@ def main():
     currenttime = datetime.datetime.now()
     currentunixtime = time.time()
     print ("Today is " + str(currenttime.date()) + ".\nThe time is " + str(currenttime.strftime("%H:%M:%S")) + ".\n")
-    print ("There are " + str(Sjson['total']) + " auction galleries available at Sacramento.")
+    #print ("There are " + str(Sjson['total']) + " auction galleries available at Sacramento.")
     print ("There are " + str(Ejson['total']) + " auction galleries available at Elk Grove.")
     print ("There are " + str(Rjson['total']) + " auction galleries available at Rancho Cordova.")
     print ("There are " + str(Cjson['total']) + " auction galleries available at Citrus Heights.")
@@ -358,7 +358,7 @@ def main():
     print ("There are " + str(ROjson['total']) + " auction galleries available at Roseville.")
     print ("There are " + str(ARjson['total']) + " auction galleries available at Arden.\n")
     print ("------------------------------------------------------------------------------------------------------------------------------")
-    Sfirst = Sinfo(currenttime,currentunixtime)
+    #Sfirst = Sinfo(currenttime,currentunixtime)
     Efirst = Einfo(currenttime,currentunixtime)
     Rfirst = Rinfo(currenttime,currentunixtime)
     Cfirst = Cinfo(currenttime,currentunixtime)
@@ -368,16 +368,15 @@ def main():
     ROfirst = ROinfo(currenttime,currentunixtime)
     ARfirst = ARinfo(currenttime,currentunixtime)
 
-
 #Input to open web page to auction gallery            
     Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
     while Redirectto != "No":
         try:
-            if (Redirectto == "Sacramento" or Redirectto == "sacramento" or Redirectto == 's' or Redirectto == 'S'):
+            '''if (Redirectto == "Sacramento" or Redirectto == "sacramento" or Redirectto == 's' or Redirectto == 'S'):
                 print ("Opening up the most recent Sacramento gallery.\n")
                 Fulllink = Startlink + Sjson['auctions'][Sfirst]['auction_id_slug']
-                webbrowser.get('edge').open(Fulllink)
-            elif (Redirectto == "Exit" or Redirectto == "exit" or Redirectto == "Close" or Redirectto == "close" or Redirectto == "quit" or Redirectto == "Quit"):
+                webbrowser.get('edge').open(Fulllink)'''
+            if (Redirectto == "Exit" or Redirectto == "exit" or Redirectto == "Close" or Redirectto == "close" or Redirectto == "quit" or Redirectto == "Quit"):
                 print ("Exiting program")
                 break
             elif (Redirectto == "Elk Grove" or Redirectto == "elk grove" or Redirectto == "elkgrove" or Redirectto == "Elkgrove" or Redirectto == 'e' or Redirectto == 'E'):
@@ -414,7 +413,7 @@ def main():
                 except TypeError:
                     Fulllink = "https://www.bidrl.com/affiliate/roseville/"
                 webbrowser.get('edge').open(Fulllink)
-             elif (Redirectto == "Arden" or Redirectto == "arden" or Redirectto == 'ar' or Redirectto == 'AR' or Redirectto == 'Ar'):
+            elif (Redirectto == "Arden" or Redirectto == "arden" or Redirectto == 'ar' or Redirectto == 'AR' or Redirectto == 'Ar'):
                 print ("Opening up the most recent Arden gallery.\n")
                 try:
                     Fulllink = Startlink + ARjson['auctions'][ARfirst]['auction_id_slug']
