@@ -5,7 +5,7 @@ import requests
 import datetime
 import time
 import webbrowser
-print ("Information is being obtained from BidRl. Please wait for a moment.")
+print ("Information is being obtained from BidRL. Please wait for a moment.")
 #read all data
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/sacramento-2")
 #Spage = requests.get("https://www.bidrl.com/api/landingPage/cesar-lua-2")
@@ -26,7 +26,7 @@ ESpage = requests.get("https://www.bidrl.com/api/landingPage/east-sacramento-45"
 ESjson = ESpage.json()
 ROpage = requests.get("https://www.bidrl.com/api/landingPage/roseville")
 ROjson = ROpage.json()
-ARpage = requests.get("https://www.bidrl.com/api/landingPage/bidrl-arden-52")
+ARpage = requests.get("https://www.bidrl.com/api/landingPage/arden-52")
 ARjson = ARpage.json()
 os.system("cls")
 #Json page which has all auction item information
