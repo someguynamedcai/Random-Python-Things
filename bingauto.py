@@ -23,9 +23,10 @@ searchwords = ["amazon","2022","2021","google","weather","news","steam","faceboo
                "peacock","disney plus","gmail","outlook","teams","protonmail","fidelity","vanguard","netflix","paramount",
                "vudu","fandango","rotten tomatoes","humble bundle","fanatical","indiegala","gamesplanet","dlgamer","gamersgate","gamebillet",
                "crunchyroll","funimation","hbo","cnn","yahoo","apple tv","eshop","amazon luna","google stadia","game pass",
-               "steamcharts","fortnite","apex legends", "local news","ziprecruiter","monster","careerbuilder","wheres waldo","spotify","pandora"]
+               "steamcharts","fortnite","apex legends", "local news","ziprecruiter","monster","careerbuilder","wheres waldo","spotify","pandora",
+               "woot","chatgpt","stablediffusion", "nvidia drivers", "amd drivers","ai art","rakuten","walgreens"]
 
-for x in range(35):
+for x in range(36):
     randnum = random.randrange(len(searchwords))
     newsearch = startquery + searchwords[randnum]
     #Removes word so it doesn't repeat
