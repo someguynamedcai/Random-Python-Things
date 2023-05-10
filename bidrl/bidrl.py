@@ -79,7 +79,7 @@ def Oneitem(location,ID,number):
 '''    
 def Einfo(currenttime,currentunixtime):
     try:
-        for Eauctions in range(len(Ejson['auctions'])):
+        for Eauctions in Ejson['auctions'].keys():
             if (Ejson['auctions'][(Eauctions)]['status'] == "open" and Ejson['auctions'][(Eauctions)]['item_id'] != "null"):
                 E_Id = Ejson['auctions'][(Eauctions)]['id']
                 Efirst = Eauctions
@@ -238,7 +238,7 @@ def Ginfo(currenttime,currentunixtime):
 
 def ESinfo(currenttime,currentunixtime):
     try:    
-        for ESauctions in range(len(ESjson['auctions'])):
+        for ESauctions in ESjson['auctions'].keys():
             if (ESjson['auctions'][ESauctions]['status'] == "open"):
                 ES_Id = ESjson['auctions'][ESauctions]['id']
                 ESfirst = ESauctions
@@ -269,7 +269,7 @@ def ESinfo(currenttime,currentunixtime):
 
 def ROinfo(currenttime,currentunixtime):
     try:
-        for ROauctions in range(len(ROjson['auctions'])):
+        for ROauctions in ROjson['auctions'].keys():
             if ROjson['auctions'][ROauctions]['status'] == "open":
                 RO_Id = ROjson['auctions'][ROauctions]['id']
                 ROfirst = ROauctions
@@ -304,7 +304,7 @@ def ROinfo(currenttime,currentunixtime):
 
 def ARinfo(currenttime,currentunixtime):
     try:
-        for ARauctions in range(len(ARjson['auctions'])):
+        for ARauctions in ARjson['auctions'].keys():
             if ARjson['auctions'][ARauctions]['status'] == "open":
                 AR_Id = ARjson['auctions'][ARauctions]['id']
                 ARfirst = ARauctions
