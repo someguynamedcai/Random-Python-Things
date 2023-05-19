@@ -38,5 +38,6 @@ for x in range(36):
 
 os.system('cls')
 input("Completed " + str(counter) + " searches.")
+os.system("taskkill /im msedge.exe /f")
 
 
