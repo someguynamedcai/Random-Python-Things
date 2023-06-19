@@ -37,7 +37,7 @@ for x in range(36):
     print (str(x+1) + " searches have been completed.")
 
 os.system('cls')
-input("Completed " + str(counter) + " searches.")
 os.system("taskkill /im msedge.exe /f")
+input("Completed " + str(counter) + " searches.")
 
 
