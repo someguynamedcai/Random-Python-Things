@@ -106,14 +106,13 @@ def Einfo(currenttime,currentunixtime):
             print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
         print ("There are no open auctions in Elk Grove as of this moment.\n")
-    return Efirst
+    return Eauctions
 
 def Rinfo(currenttime,currentunixtime):
     try:
         for Rauctions in Rjson['auctions'].keys():   
             if Rjson['auctions'][Rauctions]['status'] == "open":
                 R_Id = Rjson['auctions'][Rauctions]['id']
-                Rfirst = Rauctions
                 break
             
         RItems = {"auction_id": R_Id,}
@@ -141,14 +140,13 @@ def Rinfo(currenttime,currentunixtime):
             print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (AttributeError):
         print ("There are no open auctions in Rancho Cordova as of this moment.\n")
-    return Rfirst
+    return Rauctions
 
 def Cinfo(currenttime,currentunixtime):
     try: 
         for Cauctions in Cjson['auctions'].keys():
             if Cjson['auctions'][Cauctions]['status'] == "open":
                 C_Id = Cjson['auctions'][Cauctions]['id']
-                Cfirst = Cauctions
                 break
 
         CItems = {"auction_id": C_Id,}
@@ -172,14 +170,13 @@ def Cinfo(currenttime,currentunixtime):
             print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
         print ("There are no open auctions in Citrus Heights as of this moment.\n")
-    return Cfirst
+    return Cauctions
 
 def Ninfo(currenttime,currentunixtime):
     try:
         for Nauctions in Njson['auctions'].keys():    
             if Njson['auctions'][Nauctions]['status'] == "open":
                 N_Id = Njson['auctions'][Nauctions]['id']
-                Nfirst = Nauctions
                 break
 
         NItems = {"auction_id": N_Id,}
@@ -203,14 +200,13 @@ def Ninfo(currenttime,currentunixtime):
             print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
         print ("There are no open auctions in Natomas as of this moment.\n")
-    return Nfirst
+    return Nauctions
         
 def Ginfo(currenttime,currentunixtime):
     try:
         for Gauctions in Gjson['auctions'].keys():
             if Gjson['auctions'][Gauctions]['status'] == "open":
                 G_Id = Gjson['auctions'][Gauctions]['id']
-                Gfirst = Gauctions
                 break
             
         GItems = {"auction_id": G_Id,}
@@ -234,14 +230,13 @@ def Ginfo(currenttime,currentunixtime):
             print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (AttributeError,UnboundLocalError):
         print ("There are no open auctions in Galt as of this moment.\n")
-    return Gfirst
+    return Gauctions
 
 def ESinfo(currenttime,currentunixtime):
     try:    
         for ESauctions in ESjson['auctions'].keys():
             if (ESjson['auctions'][ESauctions]['status'] == "open"):
                 ES_Id = ESjson['auctions'][ESauctions]['id']
-                ESfirst = ESauctions
                 break
             
         ESItems = {"auction_id": ES_Id,}
@@ -263,7 +258,7 @@ def ESinfo(currenttime,currentunixtime):
             EStimes = ESjson['auctions'][str(int(ESauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in East Sacramento is a " + (ESjson['auctions'][str(int(ESauctions)+1)]['title']))
             print ("------------------------------------------------------------------------------------------------------------------------------")
-        return ESfirst  
+        return ESauctions
     except (AttributeError,UnboundLocalError):
         print ("There are no open auctions in East Sacramento as of this moment.\n")
 
@@ -272,7 +267,6 @@ def ROinfo(currenttime,currentunixtime):
         for ROauctions in ROjson['auctions'].keys():
             if ROjson['auctions'][ROauctions]['status'] == "open":
                 RO_Id = ROjson['auctions'][ROauctions]['id']
-                ROfirst = ROauctions
                 break
             
         ROItems = {"auction_id": RO_Id,}
@@ -298,7 +292,7 @@ def ROinfo(currenttime,currentunixtime):
             ROtimes = ROjson['auctions'][(int(ROauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
             print ("An auction has recently closed. The next auction gallery in Roseville is a " + (ROjson['auctions'][(int(ROauctions)+1)]['title']))
             print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        return ROfirst
+        return ROauctions
     except (NameError,AttributeError,UnboundLocalError):
         print ("There are no open auctions in Roseville as of this moment.\n")
 
@@ -307,7 +301,6 @@ def ARinfo(currenttime,currentunixtime):
         for ARauctions in ARjson['auctions'].keys():
             if ARjson['auctions'][ARauctions]['status'] == "open":
                 AR_Id = ARjson['auctions'][ARauctions]['id']
-                ARfirst = ARauctions
                 break
         
         ARItems = {"auction_id": AR_Id,}
@@ -330,7 +323,7 @@ def ARinfo(currenttime,currentunixtime):
             print ("An auction has recently closed. The next auction gallery in Arden is a " + str(ARjson['auctions'][str(int(ARauctions)+1)]['title']))
             print (ARtimes)
             print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        return ARfirst
+        return ARauctions
     except (NameError, AttributeError):
         print ("There are no open auctions in Arden as of this moment.\n")
 #Finding out where edge is located on computer to open web page
@@ -359,14 +352,14 @@ def main():
     print ("There are " + str(ARjson['total']) + " auction galleries available at Arden.\n")
     print ("------------------------------------------------------------------------------------------------------------------------------")
     #Sfirst = Sinfo(currenttime,currentunixtime)
-    Efirst = Einfo(currenttime,currentunixtime)
-    Rfirst = Rinfo(currenttime,currentunixtime)
-    Cfirst = Cinfo(currenttime,currentunixtime)
-    Nfirst = Ninfo(currenttime,currentunixtime)
-    Gfirst = Ginfo(currenttime,currentunixtime)
-    ESfirst = ESinfo(currenttime,currentunixtime)
-    ROfirst = ROinfo(currenttime,currentunixtime)
-    ARfirst = ARinfo(currenttime,currentunixtime)
+    Eauctions = Einfo(currenttime,currentunixtime)
+    Rauctions = Rinfo(currenttime,currentunixtime)
+    Cauctions = Cinfo(currenttime,currentunixtime)
+    Nauctions = Ninfo(currenttime,currentunixtime)
+    Gauctions = Ginfo(currenttime,currentunixtime)
+    ESauctions = ESinfo(currenttime,currentunixtime)
+    ROauctions = ROinfo(currenttime,currentunixtime)
+    ARauctions = ARinfo(currenttime,currentunixtime)
 
 #Input to open web page to auction gallery            
     Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
@@ -381,42 +374,42 @@ def main():
                 break
             elif (Redirectto == "Elk Grove" or Redirectto == "elk grove" or Redirectto == "elkgrove" or Redirectto == "Elkgrove" or Redirectto == 'e' or Redirectto == 'E'):
                 print ("Opening up the most recent Elk Grove gallery.\n")
-                Fulllink = Startlink + Ejson['auctions'][Efirst]['auction_id_slug']
+                Fulllink = Startlink + Ejson['auctions'][Eauctions]['auction_id_slug']
                 webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "Rancho Cordova" or Redirectto == "rancho cordova" or Redirectto == "ranchocordova" or Redirectto == "Ranchocordova" or Redirectto == 'r' or Redirectto == 'R' or Redirectto == "Rancho" or Redirectto == "rancho"):
                 print ("Opening up the most recent Rancho Cordova gallery.\n")
-                Fulllink = Startlink + Rjson['auctions'][Rfirst]['auction_id_slug']
+                Fulllink = Startlink + Rjson['auctions'][Rauctions]['auction_id_slug']
                 webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "Citrus Heights" or Redirectto == "citrus heights" or Redirectto == "citrusheights" or Redirectto == "Citrusheights" or Redirectto == 'C' or Redirectto == 'c'):
                 print ("Opening up the most recent Citrus Heights gallery.\n")
-                Fulllink = Startlink + Cjson['auctions'][Cfirst]['auction_id_slug']
+                Fulllink = Startlink + Cjson['auctions'][Cauctions]['auction_id_slug']
                 webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "Natomas" or Redirectto == "natomas" or Redirectto == 'n' or Redirectto == 'N'):
                 print ("Opening up the most recent Natomas gallery.\n")
-                Fulllink = Startlink + Njson['auctions'][Nfirst]['auction_id_slug']
+                Fulllink = Startlink + Njson['auctions'][Nauctions]['auction_id_slug']
                 webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "Galt" or Redirectto == "galt" or Redirectto == 'g' or Redirectto == 'G'):
                 print ("Opening up the most recent Galt gallery.\n")
-                Fulllink = Startlink + Gjson['auctions'][Gfirst]['auction_id_slug']
+                Fulllink = Startlink + Gjson['auctions'][Gauctions]['auction_id_slug']
                 webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "East Sacramento" or Redirectto == "east sacramento" or Redirectto == 'es' or Redirectto == 'ES' or Redirectto == 'Es' or Redirectto == 'east' or Redirectto == 'East'):
                 print ("Opening up the most recent East Sacramento gallery.\n")
                 try:
-                    Fulllink = Startlink + ESjson['auctions'][ESfirst]['auction_id_slug']
+                    Fulllink = Startlink + ESjson['auctions'][ESauctions]['auction_id_slug']
                 except TypeError:
                     Fulllink = "https://www.bidrl.com/affiliate/east-sacramento-45/"
                 webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "Roseville" or Redirectto == "roseville" or Redirectto == 'ro' or Redirectto == 'RO' or Redirectto == 'Ro' or Redirectto == 'rose' or Redirectto == 'Rose'):
                 print ("Opening up the most recent Roseville gallery.\n")
                 try:
-                    Fulllink = Startlink + ROjson['auctions'][ROfirst]['auction_id_slug']
+                    Fulllink = Startlink + ROjson['auctions'][ROauctions]['auction_id_slug']
                 except TypeError:
                     Fulllink = "https://www.bidrl.com/affiliate/roseville/"
                 webbrowser.get('edge').open(Fulllink)
             elif (Redirectto == "Arden" or Redirectto == "arden" or Redirectto == 'ar' or Redirectto == 'AR' or Redirectto == 'Ar'):
                 print ("Opening up the most recent Arden gallery.\n")
                 try:
-                    Fulllink = Startlink + ARjson['auctions'][ARfirst]['auction_id_slug']
+                    Fulllink = Startlink + ARjson['auctions'][ARauctions]['auction_id_slug']
                 except TypeError:
                     Fulllink = "https://www.bidrl.com/affiliate/bidrl-arden-52/"
                 webbrowser.get('edge').open(Fulllink)
