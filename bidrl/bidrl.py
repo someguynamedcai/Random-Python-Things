@@ -79,7 +79,7 @@ def Oneitem(location,ID,number):
 '''    
 def Einfo(currenttime,currentunixtime):
     try:
-        for Eauctions in Ejson['auctions'].keys():
+        for Eauctions in range(len(Ejson['auctions'])):
             if (Ejson['auctions'][(Eauctions)]['status'] == "open" and Ejson['auctions'][(Eauctions)]['item_id'] != "null"):
                 E_Id = Ejson['auctions'][(Eauctions)]['id']
                 Efirst = Eauctions
