@@ -24,7 +24,7 @@ Gpage = requests.get("https://www.bidrl.com/api/landingPage/galt-7")
 Gjson = Gpage.json()
 ESpage = requests.get("https://www.bidrl.com/api/landingPage/east-sacramento-45")
 ESjson = ESpage.json()
-ROpage = requests.get("https://www.bidrl.com/api/landingPage/roseville")
+ROpage = requests.get("https://www.bidrl.com/api/landingPage/roseville-48")
 ROjson = ROpage.json()
 ARpage = requests.get("https://www.bidrl.com/api/landingPage/arden-52")
 ARjson = ARpage.json()
@@ -84,7 +84,13 @@ def Einfo(currenttime,currentunixtime):
                 E_Id = Ejson['auctions'][(Eauctions)]['id']
                 Efirst = Eauctions
                 break
-
+    except (KeyError):
+        for Eauctions in Ejson['auctions'].keys():
+            if (Ejson['auctions'][(Eauctions)]['status'] == "open" and Ejson['auctions'][(Eauctions)]['item_id'] != "null"):
+                E_Id = Ejson['auctions'][(Eauctions)]['id']
+                Efirst = Eauctions
+                break
+            
         EItems = {"auction_id": E_Id,}
         EPost = requests.post(getitems, data = EItems).json()
         EItem1 = EPost['items'][0]['title']
@@ -110,6 +116,11 @@ def Einfo(currenttime,currentunixtime):
 
 def Rinfo(currenttime,currentunixtime):
     try:
+        for Rauctions in range(len(Rjson['auctions'])):   
+            if Rjson['auctions'][Rauctions]['status'] == "open":
+                R_Id = Rjson['auctions'][Rauctions]['id']
+                break
+    except (KeyError):
         for Rauctions in Rjson['auctions'].keys():   
             if Rjson['auctions'][Rauctions]['status'] == "open":
                 R_Id = Rjson['auctions'][Rauctions]['id']
@@ -144,11 +155,16 @@ def Rinfo(currenttime,currentunixtime):
 
 def Cinfo(currenttime,currentunixtime):
     try: 
+        for Cauctions in range(len(Cjson['auctions'])):
+            if Cjson['auctions'][Cauctions]['status'] == "open":
+                C_Id = Cjson['auctions'][Cauctions]['id']
+                break
+    except (KeyError):
         for Cauctions in Cjson['auctions'].keys():
             if Cjson['auctions'][Cauctions]['status'] == "open":
                 C_Id = Cjson['auctions'][Cauctions]['id']
                 break
-
+            
         CItems = {"auction_id": C_Id,}
         CPost = requests.post(getitems, data = CItems).json()
         CItem1 = CPost['items'][0]['title']
@@ -174,11 +190,16 @@ def Cinfo(currenttime,currentunixtime):
 
 def Ninfo(currenttime,currentunixtime):
     try:
-        for Nauctions in Njson['auctions'].keys():    
-            if Njson['auctions'][Nauctions]['status'] == "open":
+        for Nauctions in range(len(Njson['auctions'])):
+            if Njson['auctions'][Nauctions]['status'] == "open" and Njson['auctions'][(Nauctions)]['item_id'] != "null":
                 N_Id = Njson['auctions'][Nauctions]['id']
                 break
-
+    except (KeyError):
+        for Nauctions in Njson['auctions'].keys():
+            if Njson['auctions'][Nauctions]['status'] == "open" and Njson['auctions'][(Nauctions)]['item_id'] != "null":
+                N_Id = Njson['auctions'][Nauctions]['id']
+                break
+    
         NItems = {"auction_id": N_Id,}
         NPost = requests.post(getitems, data = NItems).json()
         NItem1 = NPost['items'][0]['title']
@@ -187,7 +208,7 @@ def Ninfo(currenttime,currentunixtime):
         Ntimeleft = NItemtime - currentunixtime
         
         if Ntimes.find("First Item Closes") != -1:
-            print ("The first auction gallery in Natomas is a " + (Njson['auctions'][str(Nauctions)]['title']))
+            print ("The first auction gallery in Natomas is a " + (Njson['auctions'][(Nauctions)]['title']))
             if (Ntimeleft < 0):
                 print ("The current gallery is closing items right now!")
             else :    
@@ -204,11 +225,15 @@ def Ninfo(currenttime,currentunixtime):
         
 def Ginfo(currenttime,currentunixtime):
     try:
-        for Gauctions in Gjson['auctions'].keys():
+        for Gauctions in range(len(Gjson['auctions'])):
             if Gjson['auctions'][Gauctions]['status'] == "open":
                 G_Id = Gjson['auctions'][Gauctions]['id']
                 break
-            
+    except (KeyError):
+        for Gauctions in Gjson['auctions'].keys():
+            if Gjson['auctions'][Gauctions]['status'] == "open" and Gjson['auctions'][(Gauctions)]['item_id'] != "null":
+                G_Id = Gjson['auctions'][Gauctions]['id']
+                break        
         GItems = {"auction_id": G_Id,}
         GPost = requests.post(getitems, data = GItems).json()
         GItem1 = GPost['items'][0]['title']
@@ -234,11 +259,15 @@ def Ginfo(currenttime,currentunixtime):
 
 def ESinfo(currenttime,currentunixtime):
     try:    
+        for ESauctions in range(len(ESjson['auctions'])):
+            if (ESjson['auctions'][ESauctions]['status'] == "open"):
+                ES_Id = ESjson['auctions'][ESauctions]['id']
+                break
+    except (KeyError):
         for ESauctions in ESjson['auctions'].keys():
             if (ESjson['auctions'][ESauctions]['status'] == "open"):
                 ES_Id = ESjson['auctions'][ESauctions]['id']
                 break
-            
         ESItems = {"auction_id": ES_Id,}
         ESPost = requests.post(getitems, data = ESItems).json()
         ESItem1 = ESPost['items'][0]['title']
@@ -264,11 +293,15 @@ def ESinfo(currenttime,currentunixtime):
 
 def ROinfo(currenttime,currentunixtime):
     try:
+        for ROauctions in range(len(ROjson['auctions'])):
+            if ROjson['auctions'][ROauctions]['status'] == "open":
+                RO_Id = ROjson['auctions'][ROauctions]['id']
+                break
+    except (KeyError):
         for ROauctions in ROjson['auctions'].keys():
             if ROjson['auctions'][ROauctions]['status'] == "open":
                 RO_Id = ROjson['auctions'][ROauctions]['id']
                 break
-            
         ROItems = {"auction_id": RO_Id,}
         ROPost = requests.post(getitems, data = ROItems).json()
         ROItem1 = ROPost['items'][0]['title']
@@ -298,11 +331,15 @@ def ROinfo(currenttime,currentunixtime):
 
 def ARinfo(currenttime,currentunixtime):
     try:
+        for ARauctions in range(len(ARjson['auctions'])):
+            if ARjson['auctions'][ARauctions]['status'] == "open":
+                AR_Id = ARjson['auctions'][ARauctions]['id']
+                break
+    except (KeyError):
         for ARauctions in ARjson['auctions'].keys():
             if ARjson['auctions'][ARauctions]['status'] == "open":
                 AR_Id = ARjson['auctions'][ARauctions]['id']
                 break
-        
         ARItems = {"auction_id": AR_Id,}
         ARPost = requests.post(getitems, data = ARItems).json()
         ARItem1 = ARPost['items'][0]['title']
