@@ -90,28 +90,29 @@ def Einfo(currenttime,currentunixtime):
                 E_Id = Ejson['auctions'][(Eauctions)]['id']
                 Efirst = Eauctions
                 break
-            
-        EItems = {"auction_id": E_Id,}
-        EPost = requests.post(getitems, data = EItems).json()
-        EItem1 = EPost['items'][0]['title']
-        Etimes = Ejson['auctions'][(Eauctions)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-        EItemtime = float(EPost['items'][0]['ends']) + 7200
-        Etimeleft = EItemtime - currentunixtime
-        
-        if Etimes.find("First Item Closes") != -1:
-            print ("The first auction gallery in Elk Grove is a " + (Ejson['auctions'][(Eauctions)]['title']))
-            if (Etimeleft < 0):
-                print ("The current gallery is closing items right now!")
-            else:
-                print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Etimeleft)))
-            print(Etimes)
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        else:
-            Etimes = Ejson['auctions'][(int(Eauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-            print ("An auction has recently closed. The next auction gallery in Elk Grove is a " + (Ejson['auctions'][(int(Eauctions)+1)]['title']))
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
-        print ("There are no open auctions in Elk Grove as of this moment.\n")
+        print("There are no open auctions in Elk Grove as of this moment.\n")
+    
+    EItems = {"auction_id": E_Id,}
+    EPost = requests.post(getitems, data = EItems).json()
+    EItem1 = EPost['items'][0]['title']
+    Etimes = Ejson['auctions'][(Eauctions)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+    EItemtime = float(EPost['items'][0]['ends']) + 7200
+    Etimeleft = EItemtime - currentunixtime
+        
+    if Etimes.find("First Item Closes") != -1:
+        print ("The first auction gallery in Elk Grove is a " + (Ejson['auctions'][(Eauctions)]['title']))
+        if (Etimeleft < 0):
+            print ("The current gallery is closing items right now!")
+        else:
+            print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Etimeleft)))
+            print(Etimes)
+        print ("------------------------------------------------------------------------------------------------------------------------------"  )
+    else:
+        Etimes = Ejson['auctions'][(int(Eauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+        print ("An auction has recently closed. The next auction gallery in Elk Grove is a " + (Ejson['auctions'][(int(Eauctions)+1)]['title']))
+        print ("------------------------------------------------------------------------------------------------------------------------------"  )
+
     return Eauctions
 
 def Rinfo(currenttime,currentunixtime):
@@ -125,32 +126,32 @@ def Rinfo(currenttime,currentunixtime):
             if Rjson['auctions'][Rauctions]['status'] == "open":
                 R_Id = Rjson['auctions'][Rauctions]['id']
                 break
-            
-        RItems = {"auction_id": R_Id,}
-        RPost = requests.post(getitems, data = RItems).json()
-        RItem1 = RPost['items'][0]['title']
-        Rtimes = Rjson['auctions'][str(Rauctions)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-        RItemtime = float(RPost['items'][0]['ends']) + 7200
-        Rtimeleft = RItemtime - currentunixtime
-        Rauctionlink = Rjson['auctions'][Rauctions]['id'] + "/item/" + Rjson['auctions'][Rauctions]['item_id_slug']
-        
-        if Rtimes.find("First Item Closes") != -1 or Rtimes.find("Closing Time") != -1:
-            print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions'][str(Rauctions)]['title']))
-            if (Rjson['auctions'][Rauctions]['item_count'] == "1"):
-                Oneitem("R",Rjson['auctions'][Rauctions]['item_id'],Rauctions)
-            else:
-                if (Rtimeleft < 0):
-                    print ("The current gallery is closing items right now!")
-                else:
-                    print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
-                    print(Rtimes)
-                print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        else:
-            Rtimes = Rjson['auctions'][str(int(Rauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-            print ("An auction has recently closed. The next auction gallery in Rancho Cordova is a " + (Rjson['auctions'][str(int(Rauctions)+1)]['title']))
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
-    except (AttributeError):
+    except (NameError,AttributeError):
         print ("There are no open auctions in Rancho Cordova as of this moment.\n")
+        
+    RItems = {"auction_id": R_Id,}
+    RPost = requests.post(getitems, data = RItems).json()
+    RItem1 = RPost['items'][0]['title']
+    Rtimes = Rjson['auctions'][str(Rauctions)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+    RItemtime = float(RPost['items'][0]['ends']) + 7200
+    Rtimeleft = RItemtime - currentunixtime
+    Rauctionlink = Rjson['auctions'][Rauctions]['id'] + "/item/" + Rjson['auctions'][Rauctions]['item_id_slug']
+        
+    if Rtimes.find("First Item Closes") != -1 or Rtimes.find("Closing Time") != -1:
+        print ("The first auction gallery in Rancho Cordova is a " + (Rjson['auctions'][str(Rauctions)]['title']))
+        if (Rjson['auctions'][Rauctions]['item_count'] == "1"):
+            Oneitem("R",Rjson['auctions'][Rauctions]['item_id'],Rauctions)
+        else:
+            if (Rtimeleft < 0):
+                print ("The current gallery is closing items right now!")
+            else:
+                print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Rtimeleft)))
+                print(Rtimes)
+            print ("------------------------------------------------------------------------------------------------------------------------------"  )
+    else:
+        Rtimes = Rjson['auctions'][str(int(Rauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+        print ("An auction has recently closed. The next auction gallery in Rancho Cordova is a " + (Rjson['auctions'][str(int(Rauctions)+1)]['title']))
+        print ("------------------------------------------------------------------------------------------------------------------------------"  )
     return Rauctions
 
 def Cinfo(currenttime,currentunixtime):
@@ -164,28 +165,27 @@ def Cinfo(currenttime,currentunixtime):
             if Cjson['auctions'][Cauctions]['status'] == "open":
                 C_Id = Cjson['auctions'][Cauctions]['id']
                 break
-            
-        CItems = {"auction_id": C_Id,}
-        CPost = requests.post(getitems, data = CItems).json()
-        CItem1 = CPost['items'][0]['title']
-        Ctimes = Cjson['auctions'][Cauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-        CItemtime = float(CPost['items'][0]['ends']) + 7200
-        Ctimeleft = CItemtime - currentunixtime
-        
-        if Ctimes.find("First Item Closes") != -1:
-            print ("The first auction gallery in Citrus Heights is a " + (Cjson['auctions'][str(Cauctions)]['title']))
-            if (Ctimeleft < 0):
-                print ("The current gallery is closing items right now!")
-            else:
-                print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ctimeleft)))
-                print(Ctimes)
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        else:
-            Ctimes = Cjson['auctions'][str(int(Cauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-            print ("An auction has recently closed. The next auction gallery in Citrus Heights is a " + (Cjson['auctions'][str(int(Cauctions)+1)]['title']))
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
         print ("There are no open auctions in Citrus Heights as of this moment.\n")
+    CItems = {"auction_id": C_Id,}
+    CPost = requests.post(getitems, data = CItems).json()
+    CItem1 = CPost['items'][0]['title']
+    Ctimes = Cjson['auctions'][Cauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+    CItemtime = float(CPost['items'][0]['ends']) + 7200
+    Ctimeleft = CItemtime - currentunixtime
+    
+    if Ctimes.find("First Item Closes") != -1:
+        print ("The first auction gallery in Citrus Heights is a " + (Cjson['auctions'][str(Cauctions)]['title']))
+        if (Ctimeleft < 0):
+            print ("The current gallery is closing items right now!")
+        else:
+            print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ctimeleft)))
+            print(Ctimes)
+        print ("------------------------------------------------------------------------------------------------------------------------------")
+    else:
+        Ctimes = Cjson['auctions'][str(int(Cauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+        print ("An auction has recently closed. The next auction gallery in Citrus Heights is a " + (Cjson['auctions'][str(int(Cauctions)+1)]['title']))
+        print ("------------------------------------------------------------------------------------------------------------------------------")
     return Cauctions
 
 def Ninfo(currenttime,currentunixtime):
@@ -199,28 +199,28 @@ def Ninfo(currenttime,currentunixtime):
             if Njson['auctions'][Nauctions]['status'] == "open" and Njson['auctions'][(Nauctions)]['item_id'] != "null":
                 N_Id = Njson['auctions'][Nauctions]['id']
                 break
-    
-        NItems = {"auction_id": N_Id,}
-        NPost = requests.post(getitems, data = NItems).json()
-        NItem1 = NPost['items'][0]['title']
-        Ntimes = Njson['auctions'][Nauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-        NItemtime = float(NPost['items'][0]['ends']) + 7200
-        Ntimeleft = NItemtime - currentunixtime
-        
-        if Ntimes.find("First Item Closes") != -1:
-            print ("The first auction gallery in Natomas is a " + (Njson['auctions'][(Nauctions)]['title']))
-            if (Ntimeleft < 0):
-                print ("The current gallery is closing items right now!")
-            else :    
-                print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ntimeleft)))
-                print(Ntimes)
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        else:
-            Ntimes = Njson['auctions'][str(int(Nauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-            print ("An auction has recently closed. The next auction gallery in Natomas is a " + str(Njson['auctions'][str(int(Sauctions)+1)]['title']))
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
     except (NameError, AttributeError):
         print ("There are no open auctions in Natomas as of this moment.\n")
+        
+    NItems = {"auction_id": N_Id,}
+    NPost = requests.post(getitems, data = NItems).json()
+    NItem1 = NPost['items'][0]['title']
+    Ntimes = Njson['auctions'][Nauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+    NItemtime = float(NPost['items'][0]['ends']) + 7200
+    Ntimeleft = NItemtime - currentunixtime
+    
+    if Ntimes.find("First Item Closes") != -1:
+        print ("The first auction gallery in Natomas is a " + (Njson['auctions'][(Nauctions)]['title']))
+        if (Ntimeleft < 0):
+            print ("The current gallery is closing items right now!")
+        else :    
+            print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Ntimeleft)))
+            print(Ntimes)
+        print ("------------------------------------------------------------------------------------------------------------------------------" )
+    else:
+        Ntimes = Njson['auctions'][str(int(Nauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+        print ("An auction has recently closed. The next auction gallery in Natomas is a " + str(Njson['auctions'][str(int(Sauctions)+1)]['title']))
+        print ("------------------------------------------------------------------------------------------------------------------------------" )
     return Nauctions
         
 def Ginfo(currenttime,currentunixtime):
@@ -233,28 +233,30 @@ def Ginfo(currenttime,currentunixtime):
         for Gauctions in Gjson['auctions'].keys():
             if Gjson['auctions'][Gauctions]['status'] == "open" and Gjson['auctions'][(Gauctions)]['item_id'] != "null":
                 G_Id = Gjson['auctions'][Gauctions]['id']
-                break        
-        GItems = {"auction_id": G_Id,}
-        GPost = requests.post(getitems, data = GItems).json()
-        GItem1 = GPost['items'][0]['title']
-        Gtimes = Gjson['auctions'][Gauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-        GItemtime = float(GPost['items'][0]['ends']) + 7200
-        Gtimeleft = GItemtime - currentunixtime
-        
-        if Gtimes.find("Closing Time") != -1 or Gtimes.find("First Item Closes") != -1:
-            print ("The first auction gallery in Galt is a " + (Gjson['auctions'][str(Gauctions)]['title']))
-            if (Gtimeleft < 0):
-                print ("The current gallery is closing items right now!")
-            else :    
-                print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Gtimeleft)))
-                print(Gtimes)
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        else:
-            Gtimes = Gjson['auctions'][str(int(Gauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-            print ("An auction has recently closed. The next auction gallery in Galt is a " + (Gjson['auctions'][str(int(Gauctions)+1)]['title']))
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
+                break
     except (AttributeError,UnboundLocalError):
         print ("There are no open auctions in Galt as of this moment.\n")
+        
+    GItems = {"auction_id": G_Id,}
+    GPost = requests.post(getitems, data = GItems).json()
+    GItem1 = GPost['items'][0]['title']
+    Gtimes = Gjson['auctions'][Gauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+    GItemtime = float(GPost['items'][0]['ends']) + 7200
+    Gtimeleft = GItemtime - currentunixtime
+    
+    if Gtimes.find("Closing Time") != -1 or Gtimes.find("First Item Closes") != -1:
+        print ("The first auction gallery in Galt is a " + (Gjson['auctions'][str(Gauctions)]['title']))
+        if (Gtimeleft < 0):
+            print ("The current gallery is closing items right now!")
+        else :    
+            print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = Gtimeleft)))
+            print(Gtimes)
+        print ("------------------------------------------------------------------------------------------------------------------------------" )
+    else:
+        Gtimes = Gjson['auctions'][str(int(Gauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+        print ("An auction has recently closed. The next auction gallery in Galt is a " + (Gjson['auctions'][str(int(Gauctions)+1)]['title']))
+        print ("------------------------------------------------------------------------------------------------------------------------------" )
+
     return Gauctions
 
 def ESinfo(currenttime,currentunixtime):
@@ -268,28 +270,29 @@ def ESinfo(currenttime,currentunixtime):
             if (ESjson['auctions'][ESauctions]['status'] == "open"):
                 ES_Id = ESjson['auctions'][ESauctions]['id']
                 break
-        ESItems = {"auction_id": ES_Id,}
-        ESPost = requests.post(getitems, data = ESItems).json()
-        ESItem1 = ESPost['items'][0]['title']
-        EStimes = ESjson['auctions'][ESauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-        ESItemtime = float(ESPost['items'][0]['ends']) + 7200
-        EStimeleft = ESItemtime - currentunixtime
-
-        if EStimes.find("First Item Closes") != -1:
-            print ("The first auction gallery in East Sacramento is a " + (ESjson['auctions'][(ESauctions)]['title']))
-            if (EStimeleft < 0):
-                print ("The current gallery is closing items right now!")
-            else:
-                print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = EStimeleft)))
-                print(EStimes)
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        else:
-            EStimes = ESjson['auctions'][str(int(ESauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-            print ("An auction has recently closed. The next auction gallery in East Sacramento is a " + (ESjson['auctions'][str(int(ESauctions)+1)]['title']))
-            print ("------------------------------------------------------------------------------------------------------------------------------")
-        return ESauctions
     except (AttributeError,UnboundLocalError):
         print ("There are no open auctions in East Sacramento as of this moment.\n")
+        
+    ESItems = {"auction_id": ES_Id,}
+    ESPost = requests.post(getitems, data = ESItems).json()
+    ESItem1 = ESPost['items'][0]['title']
+    EStimes = ESjson['auctions'][ESauctions]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+    ESItemtime = float(ESPost['items'][0]['ends']) + 7200
+    EStimeleft = ESItemtime - currentunixtime
+
+    if EStimes.find("First Item Closes") != -1:
+        print ("The first auction gallery in East Sacramento is a " + (ESjson['auctions'][(ESauctions)]['title']))
+        if (EStimeleft < 0):
+            print ("The current gallery is closing items right now!")
+        else:
+            print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = EStimeleft)))
+            print(EStimes)
+        print ("------------------------------------------------------------------------------------------------------------------------------"  )
+    else:
+        EStimes = ESjson['auctions'][str(int(ESauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+        print ("An auction has recently closed. The next auction gallery in East Sacramento is a " + (ESjson['auctions'][str(int(ESauctions)+1)]['title']))
+        print ("------------------------------------------------------------------------------------------------------------------------------")
+    return ESauctions
 
 def ROinfo(currenttime,currentunixtime):
     try:
@@ -302,32 +305,33 @@ def ROinfo(currenttime,currentunixtime):
             if ROjson['auctions'][ROauctions]['status'] == "open":
                 RO_Id = ROjson['auctions'][ROauctions]['id']
                 break
-        ROItems = {"auction_id": RO_Id,}
-        ROPost = requests.post(getitems, data = ROItems).json()
-        ROItem1 = ROPost['items'][0]['title']
-        ROtimes = ROjson['auctions'][(ROauctions)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-        ROItemtime = float(ROPost['items'][0]['ends']) + 7200
-        ROtimeleft = ROItemtime - currentunixtime
-        ROauctionlink = ROjson['auctions'][ROauctions]['id'] + "/item/" + ROjson['auctions'][ROauctions]['item_id_slug']
-        
-        if ROtimes.find("First Item Closes") != -1 or ROtimes.find("Closing Time") != -1:
-            print ("The first auction gallery in Roseville is a " + (ROjson['auctions'][(ROauctions)]['title']))
-            if (ROjson['auctions'][ROauctions]['item_count'] == "1"):
-                Oneitem("R",ROjson['auctions'][ROauctions]['item_id'])
-            else:
-                if (ROtimeleft < 0):
-                    print ("The current gallery is closing items right now!")
-                else:
-                    print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = ROtimeleft)))
-                    print(ROtimes)
-                print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        else:
-            ROtimes = ROjson['auctions'][(int(ROauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-            print ("An auction has recently closed. The next auction gallery in Roseville is a " + (ROjson['auctions'][(int(ROauctions)+1)]['title']))
-            print ("------------------------------------------------------------------------------------------------------------------------------"  )
-        return ROauctions
-    except (NameError,AttributeError,UnboundLocalError):
+    except (NameError,AttributeError):
         print ("There are no open auctions in Roseville as of this moment.\n")
+        
+    ROItems = {"auction_id": RO_Id,}
+    ROPost = requests.post(getitems, data = ROItems).json()
+    ROItem1 = ROPost['items'][0]['title']
+    ROtimes = ROjson['auctions'][(ROauctions)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+    ROItemtime = float(ROPost['items'][0]['ends']) + 7200
+    ROtimeleft = ROItemtime - currentunixtime
+    ROauctionlink = ROjson['auctions'][ROauctions]['id'] + "/item/" + ROjson['auctions'][ROauctions]['item_id_slug']
+    
+    if ROtimes.find("First Item Closes") != -1 or ROtimes.find("Closing Time") != -1:
+        print ("The first auction gallery in Roseville is a " + (ROjson['auctions'][(ROauctions)]['title']))
+        if (ROjson['auctions'][ROauctions]['item_count'] == "1"):
+            Oneitem("R",ROjson['auctions'][ROauctions]['item_id'])
+        else:
+            if (ROtimeleft < 0):
+                print ("The current gallery is closing items right now!")
+            else:
+                print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = ROtimeleft)))
+                print(ROtimes)
+            print ("------------------------------------------------------------------------------------------------------------------------------")
+    else:
+        ROtimes = ROjson['auctions'][(int(ROauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
+        print ("An auction has recently closed. The next auction gallery in Roseville is a " + (ROjson['auctions'][(int(ROauctions)+1)]['title']))
+        print ("------------------------------------------------------------------------------------------------------------------------------" )
+    return ROauctions
 
 def ARinfo(currenttime,currentunixtime):
     try:
