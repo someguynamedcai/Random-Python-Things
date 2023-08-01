@@ -200,12 +200,12 @@ def Ninfo(currenttime,currentunixtime):
 def Ginfo(currenttime,currentunixtime):
     try:
         for Gauctions in range(len(Gjson['auctions'])):
-            if Gjson['auctions'][Gauctions]['status'] == "open":
+            if Gjson['auctions'][Gauctions]['status'] == "open" and "coming-soon" not in Gjson['auctions'][Gauctions]['item_id_slug']:
                 G_Id = Gjson['auctions'][Gauctions]['id']
                 break
     except (KeyError):
         for Gauctions in Gjson['auctions'].keys():
-            if Gjson['auctions'][Gauctions]['status'] == "open" and Gjson['auctions'][(Gauctions)]['item_id'] != "null":
+            if Gjson['auctions'][Gauctions]['status'] == "open" and Gjson['auctions'][(Gauctions)]['item_id'] != "null" and "coming-soon" not in Gjson['auctions'][Gauctions]['item_id_slug']:
                 G_Id = Gjson['auctions'][Gauctions]['id']
                 break
     try:    
