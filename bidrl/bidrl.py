@@ -21,13 +21,13 @@ ESpage = requests.get("https://www.bidrl.com/api/landingPage/east-sacramento-45"
 ESjson = ESpage.json()
 ROpage = requests.get("https://www.bidrl.com/api/landingPage/roseville-48")
 ROjson = ROpage.json()
-ARpage = requests.get("https://www.bidrl.com/api/landingPage/arden-52")
-ARjson = ARpage.json()
 os.system("cls")
 #Json page which has all auction item information
 
 getitems = "https://www.bidrl.com/api/getitems"
 
+
+#In use when a gallery is only 1 item
 def Oneitem(location,ID,number):
     if (location == "R"):
         currentunixtime = time.time()
@@ -309,44 +309,7 @@ def ROinfo(currenttime,currentunixtime):
     except (NameError,AttributeError,UnboundLocalError):
         print ("THERE ARE NO OPEN AUCTIONS IN ROSEVILLE RIGHT NOW.")
         print ("------------------------------------------------------------------------------------------------------------------------------")
-        
-def ARinfo(currenttime,currentunixtime):
-    try:
-        for ARauctions in range(len(ARjson['auctions'])):
-            if ARjson['auctions'][ARauctions]['status'] == "open":
-                AR_Id = ARjson['auctions'][ARauctions]['id']
-                break
-    except (KeyError):
-        for ARauctions in ARjson['auctions'].keys():
-            if ARjson['auctions'][ARauctions]['status'] == "open":
-                AR_Id = ARjson['auctions'][ARauctions]['id']
-                break
-    try:        
-        ARItems = {"auction_id": AR_Id,}
-        ARPost = requests.post(getitems, data = ARItems).json()
-        ARItem1 = ARPost['items'][0]['title']
-        ARtimes = ARjson['auctions'][(ARauctions)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-        ARItemtime = float(ARPost['items'][0]['ends']) + 7200
-        ARtimeleft = ARItemtime - currentunixtime
-
-        if ARtimes.find("First Item Closes") != -1:
-            print ("The first auction gallery in Arden is a " + (ARjson['auctions'][(ARauctions)]['title']))
-            if (ARtimeleft < 0):
-                print ("The current gallery is closing items right now!")
-            else:
-                print ("The first item in this gallery will close in " + str(datetime.timedelta(seconds = ARtimeleft)))
-                print(ARtimes)
-            print ("------------------------------------------------------------------------------------------------------------------------------")
-        else:
-            ARtimes = ARjson['auctions'][str(int(ARauctions)+1)]['info_div'].replace("<b>","").replace("</b>"," ").replace("<br>","").replace("<br />"," ")
-            print ("An auction has recently closed. The next auction gallery in Arden is a " + str(ARjson['auctions'][str(int(ARauctions)+1)]['title']))
-            print (ARtimes)
-            print ("------------------------------------------------------------------------------------------------------------------------------")
-        return ARauctions
-    except (NameError,AttributeError,UnboundLocalError):
-        print ("THERE ARE NO OPEN AUCTIONS IN ARDEN RIGHT NOW.")
-        print ("------------------------------------------------------------------------------------------------------------------------------")
-        
+          
 #Finding out where edge is located on computer to open web page
 #Default path to Edge, may not work for everyone
 edge_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
@@ -367,7 +330,6 @@ def main():
     print ("There are " + str(Gjson['total']) + " auction galleries available at Galt.")
     print ("There are " + str(ESjson['total']) + " auction galleries available at East Sacramento.")
     print ("There are " + str(ROjson['total']) + " auction galleries available at Roseville.")
-    print ("There are " + str(ARjson['total']) + " auction galleries available at Arden.\n")
     print ("------------------------------------------------------------------------------------------------------------------------------")
     #Sfirst = Sinfo(currenttime,currentunixtime)
     Eauctions = Einfo(currenttime,currentunixtime)
@@ -377,7 +339,6 @@ def main():
     Gauctions = Ginfo(currenttime,currentunixtime)
     ESauctions = ESinfo(currenttime,currentunixtime)
     ROauctions = ROinfo(currenttime,currentunixtime)
-    ARauctions = ARinfo(currenttime,currentunixtime)
 
 #Input to open web page to auction gallery            
     Redirectto = input("Please type a location to go to or type in 'Exit' to exit: ")
@@ -423,14 +384,7 @@ def main():
                     Fulllink = Startlink + ROjson['auctions'][ROauctions]['auction_id_slug']
                 except TypeError:
                     Fulllink = "https://www.bidrl.com/affiliate/roseville/"
-                webbrowser.get('edge').open(Fulllink)
-            elif (Redirectto == "Arden" or Redirectto == "arden" or Redirectto == 'ar' or Redirectto == 'AR' or Redirectto == 'Ar'):
-                print ("Opening up the most recent Arden gallery.\n")
-                try:
-                    Fulllink = Startlink + ARjson['auctions'][ARauctions]['auction_id_slug']
-                except TypeError:
-                    Fulllink = "https://www.bidrl.com/affiliate/bidrl-arden-52/"
-                webbrowser.get('edge').open(Fulllink)
+                webbrowser.get('edge').open(Fulllink)            
             elif (Redirectto == "refresh" or Redirectto == "Refresh" or Redirectto == "update" or Redirectto == "Update" or Redirectto == "restart" or Redirectto == "Restart"):
                 print ("Updating information. Please wait.")
                 main()
